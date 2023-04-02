@@ -3,7 +3,7 @@
     "path": "D:/01_Documents/00_UB/01_Course/23Spring/STA 667/WinBUGS/_quarto.yml",
     "project_path": "_quarto.yml",
     "type": "yaml",
-    "hash": "0",
+    "hash": "3098976989",
     "contents": "",
     "dirty": false,
     "created": 1680415926192.0,
@@ -11,14 +11,16 @@
     "relative_order": 2,
     "properties": {
         "source_window_id": "",
-        "Source": "Source"
+        "Source": "Source",
+        "cursorPosition": "3,2",
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1680415923,
+    "lastKnownWriteTime": 1680417668,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1680415923,
+    "last_content_update": 1680417668759,
     "read_only": false,
     "read_only_alternatives": []
 }
