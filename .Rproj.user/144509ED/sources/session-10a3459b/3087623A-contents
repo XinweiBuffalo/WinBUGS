@@ -4,11 +4,8 @@ project:
   
 website:
   title: "WinBUGS"
-  navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+  page-navigation: true
+  page-footer: "Copyright 2023, Xin-Wei Huang"
 
 format:
   html:

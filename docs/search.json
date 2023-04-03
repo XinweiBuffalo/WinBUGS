@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "WinBUGS",
+    "title": "A quick tutorial of WinBUGS and R2WinBUGS",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
+    "text": "The BUGS (Bayesian inference Using Gibbs Sampling) is a project on developing software for the Bayesian analysis of complex statistical models using Markov chain Monte Carlo (MCMC) methods. The project started in 1989 at the MRC Biostatistics Unit. WinBUGS is a statistical software based on BUGS project initially released in 1997 by MRC Biostatistics Unit, and Imperial College School of Medicine. It is a GUI for using BUGS program on Windows system. WinBUGS is no longer update since 2007 because the development of OpenBUGS. The latest version of WinBUGS is 1.4.3.\n\n\n\nFirst, download WinBUGS 1.4.3 on your PC:\n.zip file for Windows 64 bit or 32 bit. (Recommended)\n\n.exe file for easier installation but 32 bit Windows only.\nfor macOS.\n\nExtract file folder \\winbugs143_unrestricted.zip\\winbugs14_full_patched\\WinBUGS14 to a path that you want to store the software, for example C:\\Program Files.\nCreate a shortcut for WinBUGS14.exe to desktop or start.\n\n\n\n\nConsider a statistical model \\[\nX_i \\sim \\text{Normal}(\\mu,\\sigma^2)\n\\] and given the prior distributions \\(\\mu \\sim \\text{Normal}(0, 100^2)\\) and \\(1 / {\\sigma}^2 \\sim \\text{Gamma}(0.001, 0.001)\\).\n```{bugs}\n\nmodel{\n  for (i in 1:20){\n    x[i] ~ dnorm (mu[1], prec[1])\n  }\n  \n  mu[1] ~ dnorm (0, 0.0001)\n  prec[1] ~ dgamma (0.001, 0.001)\n  \n  s2[1] <- 1/prec[1]\n}\n\nlist(x = c(6.62, 6.71, 5.07, 4.39, 5.68, 3.94, 5.83, 2.31, 3.60, 4.64,\n1.79, 3.12, 3.46, 8.25, 5.49, 6.49, 2.65, 9.14, 5.31, 6.58))\n\nlist( mu=c(0), prec=c(1))\n\n```\nNote: In BUGS, the second parameter of dnorm is the inverse of normal variance."
   },
   {
     "objectID": "about.html",
@@ -12,5 +12,19 @@
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "index.html#install-r2winbugs-package",
+    "href": "index.html#install-r2winbugs-package",
+    "title": "A quick tutorial of WinBUGS and R2WinBUGS",
+    "section": "Install R2WinBUGS package",
+    "text": "Install R2WinBUGS package\n123"
+  },
+  {
+    "objectID": "index.html#example",
+    "href": "index.html#example",
+    "title": "A quick tutorial of WinBUGS and R2WinBUGS",
+    "section": "Example",
+    "text": "Example\n123\n\nBuilding model\n123\n\n\nMCMC\n123\n\n\nInference on the MC samples\n1234"
   }
 ]

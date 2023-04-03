@@ -3,7 +3,7 @@
     "path": "D:/01_Documents/00_UB/01_Course/23Spring/STA 667/WinBUGS/index.qmd",
     "project_path": "index.qmd",
     "type": "quarto_markdown",
-    "hash": "111886147",
+    "hash": "1914363782",
     "contents": "",
     "dirty": false,
     "created": 1680415925973.0,
@@ -16,16 +16,18 @@
         "Source": "Source",
         "docOutlineVisible": "1",
         "rmdVisualCollapsedChunks": "",
-        "rmdVisualModeLocation": "132:0",
-        "cursorPosition": "8,0",
-        "scrollLine": "0"
+        "rmdVisualModeLocation": "1333:1242.4000244140625",
+        "cursorPosition": "55,94",
+        "scrollLine": "48",
+        "docOutlineSize": "91",
+        "ignored_words": "WinBUGS,OpenBUGS,Biostatistics\n"
     },
     "folds": "",
-    "lastKnownWriteTime": 1680453110,
+    "lastKnownWriteTime": 1680558366,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1680453110609,
+    "last_content_update": 1680558366514,
     "read_only": false,
     "read_only_alternatives": []
 }
