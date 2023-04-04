@@ -1,0 +1,7 @@
+"0","#install.packages(""R2WinBUGS"")"
+"0","library(""R2WinBUGS"")"
+"2","Warning: package ‘R2WinBUGS’ was built under R version 4.2.3"
+"2","Loading required package: coda
+"
+"2","Loading required package: boot
+"

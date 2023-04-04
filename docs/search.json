@@ -18,7 +18,7 @@
     "href": "index.html#install-r2winbugs-package",
     "title": "A quick tutorial of WinBUGS and R2WinBUGS",
     "section": "Install R2WinBUGS package",
-    "text": "Install R2WinBUGS package"
+    "text": "Install R2WinBUGS package\nUse install.packages and library to install and load the package.\n\n#install.packages(\"R2WinBUGS\")\nlibrary(\"R2WinBUGS\")\n\nLoading required package: coda\n\n\nLoading required package: boot"
   },
   {
     "objectID": "index.html#example",
@@ -26,5 +26,12 @@
     "title": "A quick tutorial of WinBUGS and R2WinBUGS",
     "section": "Example",
     "text": "Example\n\nBuilding model\n\n\nMCMC\n\n\nInference on the MC samples"
+  },
+  {
+    "objectID": "index.html#school-data-example",
+    "href": "index.html#school-data-example",
+    "title": "A quick tutorial of WinBUGS and R2WinBUGS",
+    "section": "School data example",
+    "text": "School data example\nThe Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools, from an experiment conducted in the late 1970s. SAT-V is a standard multiple choice test administered by the Educational Testing Service. This Service was interested in the effects of coaching programs for each of the selected schools. The study included coached and uncoached pupils, about sixty in each of the eight different schools; see Rubin (1981). All of them had already taken the PSAT (Preliminary SAT) which results were used as covariates. For each school, the estimated treatment effect and the standard error of the effect estimate are given. These are calculated by an analysis of covariance adjustment appropriate for a completely randomized experiment (Rubin 1981). This example was analyzed using a hierarchical normal model in Rubin (1981) and Gelman, Carlin, Stern, and Rubin (2003, Section 5.5).\n\ndata(schools)\nschools\n\n  school estimate   sd\n1      A    28.39 14.9\n2      B     7.94 10.2\n3      C    -2.75 16.3\n4      D     6.82 11.0\n5      E    -0.64  9.4\n6      F     0.63 11.4\n7      G    18.01 10.4\n8      H    12.16 17.6\n\n\n\nmod1 <- \"model {\n  for (j in 1:J)\n  {\n    y[j] ~ dnorm (theta[j], tau.y[j])\n    theta[j] ~ dnorm (mu.theta, tau.theta)\n    tau.y[j] <- pow(sigma.y[j], -2)\n  }\n  mu.theta ~ dnorm (0.0, 1.0E-6)\n  tau.theta <- pow(sigma.theta, -2)\n  sigma.theta ~ dunif (0, 1000)\n}\"\nwriteLines(mod1, \"/path/to/model/mod1.bug\")\n\n\nJ <- nrow(schools)\ny <- schools$estimate\nsigma.y <- schools$sd\ndata <- list (\"J\", \"y\", \"sigma.y\")\n\n\nBuilding model\n\n\nMCMC\n\n\nInference on the MC samples"
   }
 ]

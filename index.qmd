@@ -77,10 +77,50 @@ You can use Sample Monitor Tool to do summary statistics, time series plot for M
 
 # The R interface of WinBUGS: R2WinBUGS
 
+`R2WinBUGS` is an R package which provide an interface for running WinBUGS on R. Although we still need to specify model in a separate `.bug` file, loadiing data can be done on R, and complex inference on the MCMC samples will be much more easier and friendly.
+
 ## Install R2WinBUGS package
 
-## Example
+Use `install.packages` and `library` to install and load the package.
 
+```{r, warning=FALSE}
+#install.packages("R2WinBUGS")
+library("R2WinBUGS")
+```
+
+## School data example
+
+The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools, from an experiment conducted in the late 1970s. SAT-V is a standard multiple choice test administered by the Educational Testing Service. This Service was interested in the effects of coaching programs for each of the selected schools. The study included coached and uncoached pupils, about sixty in each of the eight different schools; see Rubin (1981). All of them had already taken the PSAT (Preliminary SAT) which results were used as covariates. For each school, the estimated treatment effect and the standard error of the effect estimate are given. These are calculated by an analysis of covariance adjustment appropriate for a completely randomized experiment (Rubin 1981). This example was analyzed using a hierarchical normal model in Rubin (1981) and Gelman, Carlin, Stern, and Rubin (2003, Section 5.5).
+
+```{r}
+data(schools)
+schools
+```
+
+
+```{r, eval=FALSE}
+mod1 <- "model {
+  for (j in 1:J)
+  {
+    y[j] ~ dnorm (theta[j], tau.y[j])
+    theta[j] ~ dnorm (mu.theta, tau.theta)
+    tau.y[j] <- pow(sigma.y[j], -2)
+  }
+  mu.theta ~ dnorm (0.0, 1.0E-6)
+  tau.theta <- pow(sigma.theta, -2)
+  sigma.theta ~ dunif (0, 1000)
+}"
+writeLines(mod1, "/path/to/model/mod1.bug")
+
+```
+
+
+```{r}
+J <- nrow(schools)
+y <- schools$estimate
+sigma.y <- schools$sd
+data <- list ("J", "y", "sigma.y")
+```
 ### Building model
 
 ### MCMC

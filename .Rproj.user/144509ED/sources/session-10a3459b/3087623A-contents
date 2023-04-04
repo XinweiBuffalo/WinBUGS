@@ -5,7 +5,6 @@ project:
 website:
   title: "WinBUGS"
   page-navigation: true
-  page-footer: "Copyright 2023, Xin-Wei Huang"
 
 format:
   html:

@@ -188,7 +188,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#the-r-interface-of-winbugs-r2winbugs" id="toc-the-r-interface-of-winbugs-r2winbugs" class="nav-link" data-scroll-target="#the-r-interface-of-winbugs-r2winbugs">The R interface of WinBUGS: R2WinBUGS</a>
   <ul class="collapse">
   <li><a href="#install-r2winbugs-package" id="toc-install-r2winbugs-package" class="nav-link" data-scroll-target="#install-r2winbugs-package">Install R2WinBUGS package</a></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a>
+  <li><a href="#school-data-example" id="toc-school-data-example" class="nav-link" data-scroll-target="#school-data-example">School data example</a>
   <ul class="collapse">
   <li><a href="#building-model" id="toc-building-model" class="nav-link" data-scroll-target="#building-model">Building model</a></li>
   <li><a href="#mcmc" id="toc-mcmc" class="nav-link" data-scroll-target="#mcmc">MCMC</a></li>
@@ -258,11 +258,59 @@ X_i \sim \text{Normal}(\mu,\sigma^2)
 </section>
 <section id="the-r-interface-of-winbugs-r2winbugs" class="level1">
 <h1>The R interface of WinBUGS: R2WinBUGS</h1>
+<p><code>R2WinBUGS</code> is an R package which provide an interface for running WinBUGS on R. Although we still need to specify model in a separate <code>.bug</code> file, loadiing data can be done on R, and complex inference on the MCMC samples will be much more easier and friendly.</p>
 <section id="install-r2winbugs-package" class="level2">
 <h2 class="anchored" data-anchor-id="install-r2winbugs-package">Install R2WinBUGS package</h2>
+<p>Use <code>install.packages</code> and <code>library</code> to install and load the package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("R2WinBUGS")</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"R2WinBUGS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: coda</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: boot</code></pre>
+</div>
+</div>
 </section>
-<section id="example" class="level2">
-<h2 class="anchored" data-anchor-id="example">Example</h2>
+<section id="school-data-example" class="level2">
+<h2 class="anchored" data-anchor-id="school-data-example">School data example</h2>
+<p>The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools, from an experiment conducted in the late 1970s. SAT-V is a standard multiple choice test administered by the Educational Testing Service. This Service was interested in the effects of coaching programs for each of the selected schools. The study included coached and uncoached pupils, about sixty in each of the eight different schools; see Rubin (1981). All of them had already taken the PSAT (Preliminary SAT) which results were used as covariates. For each school, the estimated treatment effect and the standard error of the effect estimate are given. These are calculated by an analysis of covariance adjustment appropriate for a completely randomized experiment (Rubin 1981). This example was analyzed using a hierarchical normal model in Rubin (1981) and Gelman, Carlin, Stern, and Rubin (2003, Section 5.5).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(schools)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>schools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  school estimate   sd
+1      A    28.39 14.9
+2      B     7.94 10.2
+3      C    -2.75 16.3
+4      D     6.82 11.0
+5      E    -0.64  9.4
+6      F     0.63 11.4
+7      G    18.01 10.4
+8      H    12.16 17.6</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="st">"model {</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="st">  for (j in 1:J)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">  {</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">    y[j] ~ dnorm (theta[j], tau.y[j])</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">    theta[j] ~ dnorm (mu.theta, tau.theta)</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">    tau.y[j] &lt;- pow(sigma.y[j], -2)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">  mu.theta ~ dnorm (0.0, 1.0E-6)</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="st">  tau.theta &lt;- pow(sigma.theta, -2)</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma.theta ~ dunif (0, 1000)</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st">}"</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(mod1, <span class="st">"/path/to/model/mod1.bug"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="fu">nrow</span>(schools)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> schools<span class="sc">$</span>estimate</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sigma.y <span class="ot">&lt;-</span> schools<span class="sc">$</span>sd</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span> (<span class="st">"J"</span>, <span class="st">"y"</span>, <span class="st">"sigma.y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <section id="building-model" class="level3">
 <h3 class="anchored" data-anchor-id="building-model">Building model</h3>
 </section>
@@ -412,11 +460,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-      <div class="nav-footer-center">Copyright 2023, Xin-Wei Huang</div>
-  </div>
-</footer>
 
 
 
