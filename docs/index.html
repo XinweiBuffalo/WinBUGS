@@ -210,12 +210,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="installation-of-winbugs-1.4.3" class="level2">
 <h2 class="anchored" data-anchor-id="installation-of-winbugs-1.4.3">Installation of WinBUGS 1.4.3</h2>
 <ol type="1">
-<li>First, download WinBUGS 1.4.3 on your PC:<br>
-<a href="https://www.mrc-bsu.cam.ac.uk/wp-content/uploads/2018/11/winbugs143_unrestricted.zip" target="_blank">.zip file</a> for Windows 64 bit or 32 bit. (Recommended)</li>
-</ol>
-<p><a href="https://www.mrc-bsu.cam.ac.uk/wp-content/uploads/WinBUGS14.exe" target="_blank">.exe file</a> for easier installation but 32 bit Windows only.</p>
-<p>for macOS.</p>
-<ol start="2" type="1">
+<li><p>Download WinBUGS 1.4.3 on your PC:</p>
+<ol type="i">
+<li><p><a href="https://www.mrc-bsu.cam.ac.uk/wp-content/uploads/2018/11/winbugs143_unrestricted.zip" target="_blank">.zip file</a> for Windows 64 bit or 32 bit. (Recommended)</p></li>
+<li><p><a href="https://www.mrc-bsu.cam.ac.uk/wp-content/uploads/WinBUGS14.exe" target="_blank">.exe file</a> for easier installation but 32 bit Windows only.</p></li>
+<li><p>for macOS.</p></li>
+</ol></li>
 <li><p>Extract file folder <code>\winbugs143_unrestricted.zip\winbugs14_full_patched\WinBUGS14</code> to a path that you want to store the software, for example <code>C:\Program Files</code>.</p></li>
 <li><p>Create a shortcut for <code>WinBUGS14.exe</code> to desktop or start.</p></li>
 </ol>
@@ -225,6 +225,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Consider a statistical model <span class="math display">\[
 X_i \sim \text{Normal}(\mu,\sigma^2)
 \]</span> and given the prior distributions <span class="math inline">\(\mu \sim \text{Normal}(0, 100^2)\)</span> and <span class="math inline">\(1 / {\sigma}^2 \sim \text{Gamma}(0.001, 0.001)\)</span>.</p>
+<p>A WinBUGS program is consist of three sections: Model, Data, and Initial Values. Define our model in <code>model{...}</code>. Use <code>~</code> to specify probability distributions, or use <code>&lt;-</code> to make transformation of parameter and data. Data will be stored in a list which has the same syntax as R. Initial values are also stored in a list.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{bugs}</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="in">model{</span></span>
@@ -241,33 +242,35 @@ X_i \sim \text{Normal}(\mu,\sigma^2)
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="in">list(x = c(6.62, 6.71, 5.07, 4.39, 5.68, 3.94, 5.83, 2.31, 3.60, 4.64,</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="in">1.79, 3.12, 3.46, 8.25, 5.49, 6.49, 2.65, 9.14, 5.31, 6.58))</span></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="in">list( mu=c(0), prec=c(1))</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Note: In BUGS, the second parameter of <code>dnorm</code> is the inverse of normal variance. <img src="D:/01_Documents/00_UB/01_Course/23Spring/STA%20667/WinBUGS/docs/pic/01_interface.png" class="img-fluid" alt="Elephant"></p>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="in">list( mu=c(0), prec=c(1) )</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note: In BUGS, the second parameter of <code>dnorm</code> is the inverse of normal variance.</p>
+<p>Now let’s see how to run these codes in WinBUGS. Open WinBUGS and create an empty script (File -&gt; New). <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/01_interface.png?raw=true" class="img-fluid" alt="New script"></p>
+<p>Copy the above code and paste them into WinBUGS. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/02_script.png?raw=true" class="img-fluid" alt="BUGS program"></p>
+<p>Open the Specification Tool (Model -&gt; Specification), then highlight the model section and do “check model”. If you define your model correctly, it will show “model is syntactically correct.” at the bottom left-hand corner. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/03_specify_and_check.png?raw=true" class="img-fluid" alt="Model specification"></p>
+<p>The next step is to load the data. Highlight data section () and click “load data”. You will see “data loaded”at the bottom left-hand corner. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/04_load_data.png?raw=true" class="img-fluid" alt="Load data"></p>
+<p>And then compile the model by click “compile” and look for “model compiled.” <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/05_compile.png?raw=true" class="img-fluid" alt="Compile"></p>
+<p>Similarly, highlight the initial values and click “load inits”. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/06_inits.png?raw=true" class="img-fluid" alt="Initis"></p>
+<p>Open Sample Monitor Tool (Inference -&gt; Samples), type in the parameters that we are going to monitor, for example “mu” and “s2”, then click “set”. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/07_sampler_par.png?raw=true" class="img-fluid" alt="Sampler"></p>
+<p>Open Update Tool (Model -&gt; Update) and type in how many samples you would like to generate. Click “update” and wait for “updates took x s” message when update done. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/09_update_done.png?raw=true" class="img-fluid" alt="Update done"></p>
+<p>You can use Sample Monitor Tool to do summary statistics, time series plot for MCMC samples, density curve, etc. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/10_post.png?raw=true" class="img-fluid" alt="Posterior"></p>
 </section>
 </section>
 <section id="the-r-interface-of-winbugs-r2winbugs" class="level1">
 <h1>The R interface of WinBUGS: R2WinBUGS</h1>
-<p>123</p>
 <section id="install-r2winbugs-package" class="level2">
 <h2 class="anchored" data-anchor-id="install-r2winbugs-package">Install R2WinBUGS package</h2>
-<p>123</p>
 </section>
 <section id="example" class="level2">
 <h2 class="anchored" data-anchor-id="example">Example</h2>
-<p>123</p>
 <section id="building-model" class="level3">
 <h3 class="anchored" data-anchor-id="building-model">Building model</h3>
-<p>123</p>
 </section>
 <section id="mcmc" class="level3">
 <h3 class="anchored" data-anchor-id="mcmc">MCMC</h3>
-<p>123</p>
 </section>
 <section id="inference-on-the-mc-samples" class="level3">
 <h3 class="anchored" data-anchor-id="inference-on-the-mc-samples">Inference on the MC samples</h3>
-<p>1234</p>
 
 
 </section>
