@@ -1,1 +1,1 @@
-{"headings":["getting-start-with-winbugs","installation-of-winbugs-1.4.3","example-of-using-winbugs","the-r-interface-of-winbugs-r2winbugs","install-r2winbugs-package","school-data-example","building-model","mcmc","inference-on-the-mc-samples"],"entries":[]}
+{"headings":["getting-start-with-winbugs","installation-of-winbugs-1.4.3","example-of-using-winbugs","the-r-interface-of-winbugs-r2winbugs","install-r2winbugs-package","school-data-example","model-specification","load-data-and-initial-values","run-sampler","inference-on-mcmc-samples"],"entries":[]}

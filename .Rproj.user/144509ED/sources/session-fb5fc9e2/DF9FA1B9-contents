@@ -63,7 +63,7 @@ Copy the above code and paste them into WinBUGS. ![BUGS program](https://github.
 
 Open the Specification Tool (Model -\> Specification), then highlight the model section and do "check model". If you define your model correctly, it will show "model is syntactically correct." at the bottom left-hand corner. ![Model specification](https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/03_specify_and_check.png?raw=true)
 
-The next step is to load the data. Highlight data section () and click "load data". You will see "data loaded"at the bottom left-hand corner. ![Load data](https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/04_load_data.png?raw=true)
+The next step is to load the data. Highlight data section and click "load data". You will see "data loaded"at the bottom left-hand corner. ![Load data](https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/04_load_data.png?raw=true)
 
 And then compile the model by click "compile" and look for "model compiled." ![Compile](https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/05_compile.png?raw=true)
 
@@ -77,52 +77,118 @@ You can use Sample Monitor Tool to do summary statistics, time series plot for M
 
 # The R interface of WinBUGS: R2WinBUGS
 
-`R2WinBUGS` is an R package which provide an interface for running WinBUGS on R. Although we still need to specify model in a separate `.bug` file, loadiing data can be done on R, and complex inference on the MCMC samples will be much more easier and friendly.
+`R2WinBUGS` is an package which provides an interface for running WinBUGS on R. Although we still need to specify model in a separate `.bug` file, loading data can be done on R, and complex inference on the MCMC samples will be much more easier and friendly.
 
 ## Install R2WinBUGS package
 
 Use `install.packages` and `library` to install and load the package.
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, message=FALSE}
 #install.packages("R2WinBUGS")
 library("R2WinBUGS")
 ```
 
+
 ## School data example
 
-The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools, from an experiment conducted in the late 1970s. SAT-V is a standard multiple choice test administered by the Educational Testing Service. This Service was interested in the effects of coaching programs for each of the selected schools. The study included coached and uncoached pupils, about sixty in each of the eight different schools; see Rubin (1981). All of them had already taken the PSAT (Preliminary SAT) which results were used as covariates. For each school, the estimated treatment effect and the standard error of the effect estimate are given. These are calculated by an analysis of covariance adjustment appropriate for a completely randomized experiment (Rubin 1981). This example was analyzed using a hierarchical normal model in Rubin (1981) and Gelman, Carlin, Stern, and Rubin (2003, Section 5.5).
-
+The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools from an experiment Rubin (1981). The data includes the estimated treatment effects and the corresponding standard error from an ANCOVA. This example was analyzed using a hierarchical normal model:
+$$
+y_i\sim \text{Normal}(\theta_j, \sigma_j^2)
+$$
+given the priors and hyperpriors $\theta_j \sim \text{N}(\mu_\theta, \sigma_\theta^2=1/\tau_j)$, $\mu_\theta \sim \text{N}(0, 10^6)$, and $\sigma_\theta \sim \text{U}(0, 1000)$.
 ```{r}
 data(schools)
 schools
 ```
 
+### Model specification
 
+To specify the model, we use the same syntax as we did in WinBUGS. Create a `.txt` or `.bug` file to store the model at local path. Also, we can write out the text file With the help of R as follow. For convenience, a `.bug` file is provided with the link.
 ```{r, eval=FALSE}
-mod1 <- "model {
-  for (j in 1:J)
-  {
-    y[j] ~ dnorm (theta[j], tau.y[j])
-    theta[j] ~ dnorm (mu.theta, tau.theta)
-    tau.y[j] <- pow(sigma.y[j], -2)
-  }
-  mu.theta ~ dnorm (0.0, 1.0E-6)
-  tau.theta <- pow(sigma.theta, -2)
-  sigma.theta ~ dunif (0, 1000)
-}"
-writeLines(mod1, "/path/to/model/mod1.bug")
+# mod1 <- "model {
+#   for (j in 1:J)
+#   {
+#     y[j] ~ dnorm (theta[j], tau.y[j])
+#     theta[j] ~ dnorm (mu.theta, tau.theta)
+#     tau.y[j] <- pow(sigma.y[j], -2)
+#   }
+#   mu.theta ~ dnorm (0.0, 1.0E-6)
+#   tau.theta <- pow(sigma.theta, -2)
+#   sigma.theta ~ dunif (0, 1000)
+# }"
+# writeLines(mod1, "/path/to/model/mod1.bug")
 
+model_url <- 
+  "https://raw.githubusercontent.com/XinweiBuffalo/WinBUGS/main/model/mod1.bug"
 ```
 
-
+### Load data and initial values
+Data and initial values can be arranged as lists in R script. Save initial values lists to be function avoid repeated specifying values for multiple chains.
 ```{r}
 J <- nrow(schools)
 y <- schools$estimate
 sigma.y <- schools$sd
-data <- list ("J", "y", "sigma.y")
+data <- list("J", "y", "sigma.y")
+
+inits <- function(){
+  list(theta = rnorm(J, 0, 100), 
+       mu.theta = rnorm(1, 0, 100),
+       sigma.theta = runif(1, 0, 100))
+}
+
 ```
-### Building model
 
-### MCMC
+### Run sampler
+The sampler function `bugs()` has many arguments to control the sample generation process. For details, please see the R document. The output is a bugs object. We can take the MCMC samples from it and do further inference. (If you got any error about "cannot open the connection" or "Permission denied", please reopen Rstudio with Run as administrator.)
+```{r, warning=FALSE, error=FALSE}
+# schools.sim <- bugs(data = data, 
+#                     inits = inits, 
+#                     model.file = ,
+#                     parameters = c("theta", "mu.theta", "sigma.theta"),
+#                     n.chains = 3, 
+#                     n.iter = 1000,
+#                     bugs.directory = "c:/Program Files/WinBUGS14/")
 
-### Inference on the MC samples
+schools.sim <- bugs(data = data, 
+                    inits = inits, 
+                    model.file = "C:/Users/Xinwei/Desktop/BUGS/mod1.bug",
+                    parameters = c("theta", "mu.theta", "sigma.theta"),
+                    n.chains = 4, 
+                    n.iter = 3000,
+                    n.burnin = 1000,
+                    n.sims = 2000,
+                    bugs.seed = 1234,
+                    bugs.directory = "c:/Program Files/WinBUGS14")
+
+
+```
+
+
+### Inference on MCMC samples
+Just show some basic analysis. You can play more on it.
+```{r}
+
+# summary statistics
+print(schools.sim)
+plot(schools.sim)
+
+# trace plot
+plot(schools.sim$sims.list$theta[,1]~c(1:2000), 
+     type = "l", 
+     col = "red", 
+     xlab = "t",
+     ylab = expression(theta[1]))
+
+plot(density(schools.sim$sims.list$theta[,1]))
+
+# More inference
+
+# Bayes type-I error for testing H0: theta_1<10
+mean(schools.sim$sims.list$theta[,1]>10)
+
+# Compare the treatment effect
+mean(schools.sim$sims.list$theta[,1])>mean(schools.sim$sims.list$theta[,3])
+
+```
+
+

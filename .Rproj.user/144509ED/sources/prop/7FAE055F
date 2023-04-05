@@ -3,11 +3,11 @@
     "rmdVisualWrapConfigured": "true",
     "source_window_id": "",
     "Source": "Source",
-    "docOutlineVisible": "1",
+    "docOutlineVisible": "0",
     "rmdVisualCollapsedChunks": "",
     "rmdVisualModeLocation": "3915:6518.39990234375",
-    "cursorPosition": "100,17",
-    "scrollLine": "98",
-    "docOutlineSize": "91",
+    "cursorPosition": "141,352",
+    "scrollLine": "137",
+    "docOutlineSize": "37",
     "ignored_words": "WinBUGS,OpenBUGS,Biostatistics\n"
 }

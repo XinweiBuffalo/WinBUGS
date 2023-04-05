@@ -190,9 +190,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#install-r2winbugs-package" id="toc-install-r2winbugs-package" class="nav-link" data-scroll-target="#install-r2winbugs-package">Install R2WinBUGS package</a></li>
   <li><a href="#school-data-example" id="toc-school-data-example" class="nav-link" data-scroll-target="#school-data-example">School data example</a>
   <ul class="collapse">
-  <li><a href="#building-model" id="toc-building-model" class="nav-link" data-scroll-target="#building-model">Building model</a></li>
-  <li><a href="#mcmc" id="toc-mcmc" class="nav-link" data-scroll-target="#mcmc">MCMC</a></li>
-  <li><a href="#inference-on-the-mc-samples" id="toc-inference-on-the-mc-samples" class="nav-link" data-scroll-target="#inference-on-the-mc-samples">Inference on the MC samples</a></li>
+  <li><a href="#model-specification" id="toc-model-specification" class="nav-link" data-scroll-target="#model-specification">Model specification</a></li>
+  <li><a href="#load-data-and-initial-values" id="toc-load-data-and-initial-values" class="nav-link" data-scroll-target="#load-data-and-initial-values">Load data and initial values</a></li>
+  <li><a href="#run-sampler" id="toc-run-sampler" class="nav-link" data-scroll-target="#run-sampler">Run sampler</a></li>
+  <li><a href="#inference-on-mcmc-samples" id="toc-inference-on-mcmc-samples" class="nav-link" data-scroll-target="#inference-on-mcmc-samples">Inference on MCMC samples</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -265,20 +266,16 @@ X_i \sim \text{Normal}(\mu,\sigma^2)
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("R2WinBUGS")</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"R2WinBUGS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: coda</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: boot</code></pre>
-</div>
 </div>
 </section>
 <section id="school-data-example" class="level2">
 <h2 class="anchored" data-anchor-id="school-data-example">School data example</h2>
-<p>The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools, from an experiment conducted in the late 1970s. SAT-V is a standard multiple choice test administered by the Educational Testing Service. This Service was interested in the effects of coaching programs for each of the selected schools. The study included coached and uncoached pupils, about sixty in each of the eight different schools; see Rubin (1981). All of them had already taken the PSAT (Preliminary SAT) which results were used as covariates. For each school, the estimated treatment effect and the standard error of the effect estimate are given. These are calculated by an analysis of covariance adjustment appropriate for a completely randomized experiment (Rubin 1981). This example was analyzed using a hierarchical normal model in Rubin (1981) and Gelman, Carlin, Stern, and Rubin (2003, Section 5.5).</p>
+<p>The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools from an experiment Rubin (1981). The data includes the estimated treatment effects and the corresponding standard error from an ANCOVA. This example was analyzed using a hierarchical normal model: <span class="math display">\[
+y_i\sim \text{Normal}(\theta_j, \sigma_y^2)
+\]</span> given the priors and hyperpriors <span class="math inline">\(\theta_j \sim \text{N}(\mu_\theta, \sigma_\theta^2=1/\tau_\theta)\)</span>, <span class="math inline">\(\mu_\theta \sim \text{N}(0, 10^6)\)</span>, and <span class="math inline">\(\sigma_\theta \sim \text{U}(0, 1000)\)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(schools)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>schools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(schools)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>schools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  school estimate   sd
 1      A    28.39 14.9
@@ -291,34 +288,130 @@ X_i \sim \text{Normal}(\mu,\sigma^2)
 8      H    12.16 17.6</code></pre>
 </div>
 </div>
+<section id="model-specification" class="level3">
+<h3 class="anchored" data-anchor-id="model-specification">Model specification</h3>
+<p>To specify the model, we use the same syntax as we did in WinBUGS. Create a <code>.txt</code> or <code>.bug</code> file to store the model at local path. Also, we can write out the text file With the help of R as follow. For convenience, a <code>.bug</code> file is provided with the link.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="st">"model {</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="st">  for (j in 1:J)</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">  {</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">    y[j] ~ dnorm (theta[j], tau.y[j])</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">    theta[j] ~ dnorm (mu.theta, tau.theta)</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">    tau.y[j] &lt;- pow(sigma.y[j], -2)</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">  mu.theta ~ dnorm (0.0, 1.0E-6)</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="st">  tau.theta &lt;- pow(sigma.theta, -2)</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="st">  sigma.theta ~ dunif (0, 1000)</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st">}"</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(mod1, <span class="st">"/path/to/model/mod1.bug"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mod1 &lt;- "model {</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   for (j in 1:J)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   {</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     y[j] ~ dnorm (theta[j], tau.y[j])</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     theta[j] ~ dnorm (mu.theta, tau.theta)</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     tau.y[j] &lt;- pow(sigma.y[j], -2)</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   }</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   mu.theta ~ dnorm (0.0, 1.0E-6)</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   tau.theta &lt;- pow(sigma.theta, -2)</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   sigma.theta ~ dunif (0, 1000)</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># }"</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># writeLines(mod1, "/path/to/model/mod1.bug")</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>model_url <span class="ot">&lt;-</span> </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/XinweiBuffalo/WinBUGS/main/model/mod1.bug"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="load-data-and-initial-values" class="level3">
+<h3 class="anchored" data-anchor-id="load-data-and-initial-values">Load data and initial values</h3>
+<p>Data and initial values can be arranged as lists in R script. Save initial values lists to be function avoid repeated specifying values for multiple chains.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="fu">nrow</span>(schools)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> schools<span class="sc">$</span>estimate</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sigma.y <span class="ot">&lt;-</span> schools<span class="sc">$</span>sd</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span> (<span class="st">"J"</span>, <span class="st">"y"</span>, <span class="st">"sigma.y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="fu">nrow</span>(schools)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> schools<span class="sc">$</span>estimate</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sigma.y <span class="ot">&lt;-</span> schools<span class="sc">$</span>sd</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"J"</span>, <span class="st">"y"</span>, <span class="st">"sigma.y"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">theta =</span> <span class="fu">rnorm</span>(J, <span class="dv">0</span>, <span class="dv">100</span>), </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">mu.theta =</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">100</span>),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">sigma.theta =</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">100</span>))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="building-model" class="level3">
-<h3 class="anchored" data-anchor-id="building-model">Building model</h3>
 </section>
-<section id="mcmc" class="level3">
-<h3 class="anchored" data-anchor-id="mcmc">MCMC</h3>
+<section id="run-sampler" class="level3">
+<h3 class="anchored" data-anchor-id="run-sampler">Run sampler</h3>
+<p>The sampler function <code>bugs()</code> has many arguments to control the sample generation process. For details, please see the R document. The output is a bugs object. We can take the MCMC samples from it and do further inference.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># schools.sim &lt;- bugs(data = data, </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                     inits = inits, </span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                     model.file = ,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                     parameters = c("theta", "mu.theta", "sigma.theta"),</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                     n.chains = 3, </span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                     n.iter = 1000,</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#                     bugs.directory = "c:/Program Files/WinBUGS14/")</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>schools.sim <span class="ot">&lt;-</span> <span class="fu">bugs</span>(<span class="at">data =</span> data, </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">inits =</span> inits, </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">model.file =</span> <span class="st">"C:/Users/Xinwei/Desktop/BUGS/mod1.bug"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">parameters =</span> <span class="fu">c</span>(<span class="st">"theta"</span>, <span class="st">"mu.theta"</span>, <span class="st">"sigma.theta"</span>),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n.chains =</span> <span class="dv">4</span>, </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n.iter =</span> <span class="dv">3000</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n.burnin =</span> <span class="dv">1000</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n.sims =</span> <span class="dv">2000</span>,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>                    <span class="at">bugs.seed =</span> <span class="dv">1234</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">bugs.directory =</span> <span class="st">"c:/Program Files/WinBUGS14"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Error in file(con, "wb") : cannot open the connection</code></pre>
+</div>
+</div>
 </section>
-<section id="inference-on-the-mc-samples" class="level3">
-<h3 class="anchored" data-anchor-id="inference-on-the-mc-samples">Inference on the MC samples</h3>
+<section id="inference-on-mcmc-samples" class="level3">
+<h3 class="anchored" data-anchor-id="inference-on-mcmc-samples">Inference on MCMC samples</h3>
+<p>Just show some basic analysis. You can play more on it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary statistics</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(schools.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Inference for Bugs model at "C:/Users/Xinwei/Desktop/BUGS/mod1.bug", fit using WinBUGS,
+ 4 chains, each with 3000 iterations (first 1000 discarded), n.thin = 4
+ n.sims = 2000 iterations saved
+            mean  sd  2.5%  25%  50%  75% 97.5% Rhat n.eff
+theta[1]    11.6 8.3  -1.8  6.1 10.5 15.8  31.1  1.0   650
+theta[2]     8.0 6.4  -4.2  4.1  7.7 11.6  21.3  1.0  2000
+theta[3]     6.1 7.7 -11.5  2.2  6.7 10.8  20.3  1.0  2000
+theta[4]     7.6 6.7  -5.2  3.4  7.4 11.5  21.7  1.0   730
+theta[5]     5.4 6.3  -7.7  1.6  5.7  9.6  17.0  1.0   500
+theta[6]     6.1 6.8  -9.0  2.2  6.4 10.6  18.9  1.0   570
+theta[7]    10.6 6.8  -1.0  5.9 10.2 14.8  25.1  1.0  1600
+theta[8]     8.6 7.6  -5.9  4.0  8.1 12.6  25.0  1.0  1700
+mu.theta     8.0 5.2  -1.9  4.8  7.7 11.1  18.3  1.0  1500
+sigma.theta  6.4 5.3   0.2  2.6  5.3  8.9  19.6  1.1   120
+deviance    60.4 2.3  57.0 59.0 59.9 61.3  66.1  1.0  2000
+
+For each parameter, n.eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+
+DIC info (using the rule, pD = Dbar-Dhat)
+pD = 2.7 and DIC = 63.1
+DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(schools.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trace plot</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]<span class="sc">~</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2000</span>), </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>, </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"red"</span>, </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"t"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(theta[<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># More inference</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Bayes type-I error for testing H0: theta_1&lt;10</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]<span class="sc">&gt;</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.532</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the treatment effect</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>])<span class="sc">&gt;</span><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
 
 
 </section>

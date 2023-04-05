@@ -1,0 +1,2 @@
+"0",""
+"0","plot(density(schools.sim$sims.list$theta[,1]))"

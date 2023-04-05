@@ -1,0 +1,11 @@
+deviance	1	250
+mu.theta	251	500
+sigma.theta	501	750
+theta[1]	751	1000
+theta[2]	1001	1250
+theta[3]	1251	1500
+theta[4]	1501	1750
+theta[5]	1751	2000
+theta[6]	2001	2250
+theta[7]	2251	2500
+theta[8]	2501	2750
