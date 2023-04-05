@@ -1,0 +1,11 @@
+"0","schools.sim2 <- bugs(data = data,
+                    inits = inits,
+                    model.file = model_url,
+                    parameters = c(""theta"", ""mu.theta"", ""sigma.theta""),
+                    n.chains = 3,
+                    n.iter = 1000,
+                    bugs.directory = ""c:/Program Files/WinBUGS14/"")
+"
+"2","Error in bugs(data = data, inits = inits, model.file = model_url, parameters = c(""theta"",  : 
+  https://raw.githubusercontent.com/XinweiBuffalo/WinBUGS/main/model/mod1.bug?raw=true does not exist.
+"
