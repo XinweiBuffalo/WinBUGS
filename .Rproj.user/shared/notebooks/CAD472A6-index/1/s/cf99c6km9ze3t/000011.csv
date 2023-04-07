@@ -1,7 +1,0 @@
-"0",""
-"0","# trace plot"
-"0","plot(schools.sim$sims.list$theta[,1]~c(1:2000), "
-"0","     type = ""l"", "
-"0","     col = ""red"", "
-"0","     xlab = ""t"","
-"0","     ylab = expression(theta[1]))"

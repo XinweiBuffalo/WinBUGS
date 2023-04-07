@@ -7,9 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Xin-Wei Huang">
+<meta name="dcterms.date" content="2023-04-17">
 <meta name="description" content="Lecture of STA667 Advanced Bayesian Inference in 2023 Spring">
 
-<title>WinBUGS - A quick tutorial of WinBUGS and R2WinBUGS</title>
+<title>A quick tutorial of WinBUGS and R2WinBUGS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -85,6 +86,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -164,7 +184,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">4/17/23</p>
+        <p class="date">April 17, 2023</p>
       </div>
     </div>
     
@@ -196,6 +216,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#inference-on-mcmc-samples" id="toc-inference-on-mcmc-samples" class="nav-link" data-scroll-target="#inference-on-mcmc-samples">Inference on MCMC samples</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -215,11 +236,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol type="i">
 <li><p><a href="https://www.mrc-bsu.cam.ac.uk/wp-content/uploads/2018/11/winbugs143_unrestricted.zip" target="_blank">.zip file</a> for Windows 64 bit or 32 bit. (Recommended)</p></li>
 <li><p><a href="https://www.mrc-bsu.cam.ac.uk/wp-content/uploads/WinBUGS14.exe" target="_blank">.exe file</a> for easier installation but 32 bit Windows only.</p></li>
-<li><p>for macOS.</p></li>
 </ol></li>
 <li><p>Extract file folder <code>\winbugs143_unrestricted.zip\winbugs14_full_patched\WinBUGS14</code> to a path that you want to store the software, for example <code>C:\Program Files</code>.</p></li>
 <li><p>Create a shortcut for <code>WinBUGS14.exe</code> to desktop or start.</p></li>
 </ol>
+<p>For macOS, please check the <a href="https://www.r-bloggers.com/2012/01/running-r2winbugs-on-a-mac-running-osx/#:~:text=But%2C%20it%20would%20seem%20that,R2WinBUGS%20to%20run%20as%20well.">link</a>.</p>
 </section>
 <section id="example-of-using-winbugs" class="level2">
 <h2 class="anchored" data-anchor-id="example-of-using-winbugs">Example of using WinBUGS</h2>
@@ -249,7 +270,7 @@ X_i \sim \text{Normal}(\mu,\sigma^2)
 <p>Now let’s see how to run these codes in WinBUGS. Open WinBUGS and create an empty script (File -&gt; New). <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/01_interface.png?raw=true" class="img-fluid" alt="New script"></p>
 <p>Copy the above code and paste them into WinBUGS. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/02_script.png?raw=true" class="img-fluid" alt="BUGS program"></p>
 <p>Open the Specification Tool (Model -&gt; Specification), then highlight the model section and do “check model”. If you define your model correctly, it will show “model is syntactically correct.” at the bottom left-hand corner. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/03_specify_and_check.png?raw=true" class="img-fluid" alt="Model specification"></p>
-<p>The next step is to load the data. Highlight data section () and click “load data”. You will see “data loaded”at the bottom left-hand corner. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/04_load_data.png?raw=true" class="img-fluid" alt="Load data"></p>
+<p>The next step is to load the data. Highlight data section and click “load data”. You will see “data loaded”at the bottom left-hand corner. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/04_load_data.png?raw=true" class="img-fluid" alt="Load data"></p>
 <p>And then compile the model by click “compile” and look for “model compiled.” <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/05_compile.png?raw=true" class="img-fluid" alt="Compile"></p>
 <p>Similarly, highlight the initial values and click “load inits”. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/06_inits.png?raw=true" class="img-fluid" alt="Initis"></p>
 <p>Open Sample Monitor Tool (Inference -&gt; Samples), type in the parameters that we are going to monitor, for example “mu” and “s2”, then click “set”. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/07_sampler_par.png?raw=true" class="img-fluid" alt="Sampler"></p>
@@ -259,7 +280,7 @@ X_i \sim \text{Normal}(\mu,\sigma^2)
 </section>
 <section id="the-r-interface-of-winbugs-r2winbugs" class="level1">
 <h1>The R interface of WinBUGS: R2WinBUGS</h1>
-<p><code>R2WinBUGS</code> is an R package which provide an interface for running WinBUGS on R. Although we still need to specify model in a separate <code>.bug</code> file, loadiing data can be done on R, and complex inference on the MCMC samples will be much more easier and friendly.</p>
+<p><code>R2WinBUGS</code> is an package which provides an interface for running WinBUGS on R. Although we still need to specify model in a separate <code>.bug</code> file, loading data can be done on R, and complex inference on the MCMC samples will be much more easier and friendly.</p>
 <section id="install-r2winbugs-package" class="level2">
 <h2 class="anchored" data-anchor-id="install-r2winbugs-package">Install R2WinBUGS package</h2>
 <p>Use <code>install.packages</code> and <code>library</code> to install and load the package.</p>
@@ -271,8 +292,8 @@ X_i \sim \text{Normal}(\mu,\sigma^2)
 <section id="school-data-example" class="level2">
 <h2 class="anchored" data-anchor-id="school-data-example">School data example</h2>
 <p>The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools from an experiment Rubin (1981). The data includes the estimated treatment effects and the corresponding standard error from an ANCOVA. This example was analyzed using a hierarchical normal model: <span class="math display">\[
-y_i\sim \text{Normal}(\theta_j, \sigma_y^2)
-\]</span> given the priors and hyperpriors <span class="math inline">\(\theta_j \sim \text{N}(\mu_\theta, \sigma_\theta^2=1/\tau_\theta)\)</span>, <span class="math inline">\(\mu_\theta \sim \text{N}(0, 10^6)\)</span>, and <span class="math inline">\(\sigma_\theta \sim \text{U}(0, 1000)\)</span>.</p>
+y_i\sim \text{Normal}(\theta_j, \sigma_j^2)
+\]</span> given the priors and hyperpriors <span class="math inline">\(\theta_j \sim \text{N}(\mu_\theta, \sigma_\theta^2=1/\tau_j)\)</span>, <span class="math inline">\(\mu_\theta \sim \text{N}(0, 10^6)\)</span>, and <span class="math inline">\(\sigma_\theta \sim \text{U}(0, 1000)\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(schools)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>schools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -290,24 +311,21 @@ y_i\sim \text{Normal}(\theta_j, \sigma_y^2)
 </div>
 <section id="model-specification" class="level3">
 <h3 class="anchored" data-anchor-id="model-specification">Model specification</h3>
-<p>To specify the model, we use the same syntax as we did in WinBUGS. Create a <code>.txt</code> or <code>.bug</code> file to store the model at local path. Also, we can write out the text file With the help of R as follow. For convenience, a <code>.bug</code> file is provided with the link.</p>
+<p>To specify the model, we use the same syntax as we did in WinBUGS. Then create a <code>.txt</code> or <code>.bug</code> file to store the model at local path. It is also allowed to use a function containing a <code>BUGS</code> model since is has the similar syntax as R. While applying this model, only a temporary file will be created.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mod1 &lt;- "model {</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   for (j in 1:J)</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   {</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     y[j] ~ dnorm (theta[j], tau.y[j])</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     theta[j] ~ dnorm (mu.theta, tau.theta)</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     tau.y[j] &lt;- pow(sigma.y[j], -2)</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   }</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   mu.theta ~ dnorm (0.0, 1.0E-6)</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   tau.theta &lt;- pow(sigma.theta, -2)</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   sigma.theta ~ dunif (0, 1000)</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># }"</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># writeLines(mod1, "/path/to/model/mod1.bug")</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>model_url <span class="ot">&lt;-</span> </span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/XinweiBuffalo/WinBUGS/main/model/mod1.bug"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    y[j] <span class="sc">~</span> <span class="fu">dnorm</span> (theta[j], tau.y[j])</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    theta[j] <span class="sc">~</span> <span class="fu">dnorm</span> (mu.theta, tau.theta)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    tau.y[j] <span class="ot">&lt;-</span> <span class="fu">pow</span>(sigma.y[j], <span class="sc">-</span><span class="dv">2</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  mu.theta <span class="sc">~</span> <span class="fu">dnorm</span> (<span class="fl">0.0</span>, <span class="fl">1.0E-6</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  tau.theta <span class="ot">&lt;-</span> <span class="fu">pow</span>(sigma.theta, <span class="sc">-</span><span class="dv">2</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  sigma.theta <span class="sc">~</span> <span class="fu">dunif</span> (<span class="dv">0</span>, <span class="dv">1000</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Note: When using truncation specification, <code>%_%</code> will be needed. Check <code>?R2WinBUGS::write.model()</code> for more details.</p>
 </section>
 <section id="load-data-and-initial-values" class="level3">
 <h3 class="anchored" data-anchor-id="load-data-and-initial-values">Load data and initial values</h3>
@@ -327,95 +345,94 @@ y_i\sim \text{Normal}(\theta_j, \sigma_y^2)
 </section>
 <section id="run-sampler" class="level3">
 <h3 class="anchored" data-anchor-id="run-sampler">Run sampler</h3>
-<p>The sampler function <code>bugs()</code> has many arguments to control the sample generation process. For details, please see the R document. The output is a bugs object. We can take the MCMC samples from it and do further inference.</p>
+<p>The sampler function <code>bugs()</code> has many arguments to control the sample generation process. For details, please see <code>?R2WinBUGS::bugs()</code>. The output is a bugs object. We can take the MCMC samples from it and do further inference. ()</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># schools.sim &lt;- bugs(data = data, </span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                     inits = inits, </span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                     model.file = ,</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                     parameters = c("theta", "mu.theta", "sigma.theta"),</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                     n.chains = 3, </span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                     n.iter = 1000,</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#                     bugs.directory = "c:/Program Files/WinBUGS14/")</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>schools.sim <span class="ot">&lt;-</span> <span class="fu">bugs</span>(<span class="at">data =</span> data, </span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">inits =</span> inits, </span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">model.file =</span> <span class="st">"C:/Users/Xinwei/Desktop/BUGS/mod1.bug"</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">parameters =</span> <span class="fu">c</span>(<span class="st">"theta"</span>, <span class="st">"mu.theta"</span>, <span class="st">"sigma.theta"</span>),</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n.chains =</span> <span class="dv">4</span>, </span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n.iter =</span> <span class="dv">3000</span>,</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n.burnin =</span> <span class="dv">1000</span>,</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n.sims =</span> <span class="dv">2000</span>,</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>                    <span class="at">bugs.seed =</span> <span class="dv">1234</span>,</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">bugs.directory =</span> <span class="st">"c:/Program Files/WinBUGS14"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Error in file(con, "wb") : cannot open the connection</code></pre>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>schools.sim <span class="ot">&lt;-</span>  <span class="fu">bugs</span>(<span class="at">data =</span> data,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">inits =</span> inits,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">model.file =</span> mod1,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                     parameters.to.save </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                     <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"theta"</span>, <span class="st">"mu.theta"</span>, <span class="st">"sigma.theta"</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n.chains =</span> <span class="dv">4</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n.iter =</span> <span class="dv">2000</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">bugs.directory =</span> <span class="st">"c:/Program Files/WinBUGS14/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
+<p>Note: If you receive any error message about “Cannot open the connection” or “Permission denied”, please reopen Rstudio with Run as administrator.</p>
 </section>
 <section id="inference-on-mcmc-samples" class="level3">
 <h3 class="anchored" data-anchor-id="inference-on-mcmc-samples">Inference on MCMC samples</h3>
 <p>Just show some basic analysis. You can play more on it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary statistics</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(schools.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary statistics</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(schools.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Inference for Bugs model at "C:/Users/Xinwei/Desktop/BUGS/mod1.bug", fit using WinBUGS,
- 4 chains, each with 3000 iterations (first 1000 discarded), n.thin = 4
- n.sims = 2000 iterations saved
+<pre><code>Inference for Bugs model at "C:/Users/Xinwei/AppData/Local/Temp/RtmpQ7DaKj/model4bc851e4a71.txt", fit using WinBUGS,
+ 4 chains, each with 2000 iterations (first 1000 discarded), n.thin = 4
+ n.sims = 1000 iterations saved
             mean  sd  2.5%  25%  50%  75% 97.5% Rhat n.eff
-theta[1]    11.6 8.3  -1.8  6.1 10.5 15.8  31.1  1.0   650
-theta[2]     8.0 6.4  -4.2  4.1  7.7 11.6  21.3  1.0  2000
-theta[3]     6.1 7.7 -11.5  2.2  6.7 10.8  20.3  1.0  2000
-theta[4]     7.6 6.7  -5.2  3.4  7.4 11.5  21.7  1.0   730
-theta[5]     5.4 6.3  -7.7  1.6  5.7  9.6  17.0  1.0   500
-theta[6]     6.1 6.8  -9.0  2.2  6.4 10.6  18.9  1.0   570
-theta[7]    10.6 6.8  -1.0  5.9 10.2 14.8  25.1  1.0  1600
-theta[8]     8.6 7.6  -5.9  4.0  8.1 12.6  25.0  1.0  1700
-mu.theta     8.0 5.2  -1.9  4.8  7.7 11.1  18.3  1.0  1500
-sigma.theta  6.4 5.3   0.2  2.6  5.3  8.9  19.6  1.1   120
-deviance    60.4 2.3  57.0 59.0 59.9 61.3  66.1  1.0  2000
+theta[1]    12.4 8.7  -2.5  6.6 11.2 16.9  32.5    1   360
+theta[2]     8.4 6.9  -5.1  4.2  8.2 12.6  22.6    1  1000
+theta[3]     6.8 8.4 -11.5  1.9  7.4 12.3  23.7    1   810
+theta[4]     8.3 7.0  -6.2  4.2  8.4 12.4  22.7    1  1000
+theta[5]     5.3 7.1 -10.1  1.1  5.8 10.4  17.2    1   340
+theta[6]     6.2 7.4 -10.2  1.9  6.4 11.2  19.3    1   390
+theta[7]    11.2 7.0  -0.7  6.4 10.6 15.4  26.9    1  1000
+theta[8]     9.2 8.4  -7.3  4.5  9.0 14.1  26.2    1  1000
+mu.theta     8.4 5.4  -2.3  4.9  8.1 12.0  19.0    1  1000
+sigma.theta  7.2 5.6   0.5  3.0  5.9 10.3  20.9    1    85
+deviance    60.7 2.3  57.1 59.2 60.2 61.8  66.5    1   770
 
 For each parameter, n.eff is a crude measure of effective sample size,
 and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 
 DIC info (using the rule, pD = Dbar-Dhat)
-pD = 2.7 and DIC = 63.1
+pD = 3.1 and DIC = 63.8
 DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(schools.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(schools.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trace plot</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]<span class="sc">~</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2000</span>), </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>, </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"red"</span>, </span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"t"</span>,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(theta[<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># time series plot</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]<span class="sc">~</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>schools.sim<span class="sc">$</span>n.sims), </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"red"</span>, </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"t"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(theta[<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># More inference</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Bayes type-I error for testing H0: theta_1&lt;10</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]<span class="sc">&gt;</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># More inference</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Bayes type-I error for testing H0: theta_1&lt;10</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]<span class="sc">&gt;</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.532</code></pre>
+<pre><code>[1] 0.571</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the treatment effect</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>])<span class="sc">&gt;</span><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the treatment effect</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>])<span class="sc">&gt;</span><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
-
-
 </section>
 </section>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-dominici" class="csl-entry" role="doc-biblioentry">
+Dominici, Francesca. n.d. <span>“Lab 8: Introduction to WinBUGS.”</span> <em>ML - Bio 656 Lectures</em>. <a href="https://www.biostat.jhsph.edu/~fdominic/teaching/bio656/lectures/lectures.html">https://www.biostat.jhsph.edu/~fdominic/teaching/bio656/lectures/lectures.html</a>.
+</div>
+<div id="ref-sturtz2005r2winbugs" class="csl-entry" role="doc-biblioentry">
+Sturtz, Sibylle, Uwe Ligges, and Andrew Gelman. 2005. <span>“R2WinBUGS: A Package for Running WinBUGS from r.”</span> <em>Journal of Statistical Software</em> 12: 1–16.
+</div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->

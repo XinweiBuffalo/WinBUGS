@@ -2,13 +2,12 @@
 title: "A quick tutorial of WinBUGS and R2WinBUGS"
 title-block-banner: true
 date: 2023-04-17
-date-format: short
 author:
   - name: Xin-Wei Huang
     affiliations:
       - Department of Biostatistics, University at Buffalo
 description: Lecture of STA667 Advanced Bayesian Inference in 2023 Spring
-bibliography: references.bib  
+bibliography: references.bib
 ---
 
 # Getting start with WinBUGS
@@ -23,11 +22,11 @@ The BUGS (Bayesian inference Using Gibbs Sampling) is a project on developing so
 
     ii) [.exe file](https://www.mrc-bsu.cam.ac.uk/wp-content/uploads/WinBUGS14.exe){target="_blank"} for easier installation but 32 bit Windows only.
 
-    iii) for macOS.
-
 2.  Extract file folder `\winbugs143_unrestricted.zip\winbugs14_full_patched\WinBUGS14` to a path that you want to store the software, for example `C:\Program Files`.
 
 3.  Create a shortcut for `WinBUGS14.exe` to desktop or start.
+
+For macOS, please check the  [link](https://www.r-bloggers.com/2012/01/running-r2winbugs-on-a-mac-running-osx/#:~:text=But%2C%20it%20would%20seem%20that,R2WinBUGS%20to%20run%20as%20well.).
 
 ## Example of using WinBUGS
 
@@ -89,14 +88,12 @@ Use `install.packages` and `library` to install and load the package.
 library("R2WinBUGS")
 ```
 
-
 ## School data example
 
-The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools from an experiment Rubin (1981). The data includes the estimated treatment effects and the corresponding standard error from an ANCOVA. This example was analyzed using a hierarchical normal model:
-$$
+The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools from an experiment Rubin (1981). The data includes the estimated treatment effects and the corresponding standard error from an ANCOVA. This example was analyzed using a hierarchical normal model: $$
 y_i\sim \text{Normal}(\theta_j, \sigma_j^2)
-$$
-given the priors and hyperpriors $\theta_j \sim \text{N}(\mu_\theta, \sigma_\theta^2=1/\tau_j)$, $\mu_\theta \sim \text{N}(0, 10^6)$, and $\sigma_\theta \sim \text{U}(0, 1000)$.
+$$ given the priors and hyperpriors $\theta_j \sim \text{N}(\mu_\theta, \sigma_\theta^2=1/\tau_j)$, $\mu_\theta \sim \text{N}(0, 10^6)$, and $\sigma_\theta \sim \text{U}(0, 1000)$.
+
 ```{r}
 data(schools)
 schools
@@ -104,27 +101,29 @@ schools
 
 ### Model specification
 
-To specify the model, we use the same syntax as we did in WinBUGS. Create a `.txt` or `.bug` file to store the model at local path. Also, we can write out the text file With the help of R as follow. For convenience, a `.bug` file is provided with the link.
-```{r, eval=FALSE}
-# mod1 <- "model {
-#   for (j in 1:J)
-#   {
-#     y[j] ~ dnorm (theta[j], tau.y[j])
-#     theta[j] ~ dnorm (mu.theta, tau.theta)
-#     tau.y[j] <- pow(sigma.y[j], -2)
-#   }
-#   mu.theta ~ dnorm (0.0, 1.0E-6)
-#   tau.theta <- pow(sigma.theta, -2)
-#   sigma.theta ~ dunif (0, 1000)
-# }"
-# writeLines(mod1, "/path/to/model/mod1.bug")
+To specify the model, we use the same syntax as we did in WinBUGS. Then create a `.txt` or `.bug` file to store the model at local path. It is also allowed to use a function containing a `BUGS` model since is has the similar syntax as R. While applying this model, only a temporary file will be created.
 
-model_url <- 
-  "https://raw.githubusercontent.com/XinweiBuffalo/WinBUGS/main/model/mod1.bug"
+```{r}
+mod1 <- function(){
+  for (j in 1:J)
+  {
+    y[j] ~ dnorm (theta[j], tau.y[j])
+    theta[j] ~ dnorm (mu.theta, tau.theta)
+    tau.y[j] <- pow(sigma.y[j], -2)
+  }
+  mu.theta ~ dnorm (0.0, 1.0E-6)
+  tau.theta <- pow(sigma.theta, -2)
+  sigma.theta ~ dunif (0, 1000)
+}
+
 ```
 
+Note: When using truncation specification, `%_%` will be needed. Check `?R2WinBUGS::write.model()` for more details.
+
 ### Load data and initial values
+
 Data and initial values can be arranged as lists in R script. Save initial values lists to be function avoid repeated specifying values for multiple chains.
+
 ```{r}
 J <- nrow(schools)
 y <- schools$estimate
@@ -140,45 +139,35 @@ inits <- function(){
 ```
 
 ### Run sampler
-The sampler function `bugs()` has many arguments to control the sample generation process. For details, please see the R document. The output is a bugs object. We can take the MCMC samples from it and do further inference. (If you got any error about "cannot open the connection" or "Permission denied", please reopen Rstudio with Run as administrator.)
+
+The sampler function `bugs()` has many arguments to control the sample generation process. For details, please see `?R2WinBUGS::bugs()`. The output is a bugs object. We can take the MCMC samples from it and do further inference. ()
+
 ```{r, warning=FALSE, error=FALSE}
-model_url <- 
-  "https://raw.githubusercontent.com/XinweiBuffalo/WinBUGS/main/model/mod1.bug"
-schools.sim2 <- bugs(data = data,
-                    inits = inits,
-                    model.file = model_url,
-                    parameters = c("theta", "mu.theta", "sigma.theta"),
-                    n.chains = 3,
-                    n.iter = 1000,
-                    bugs.directory = "c:/Program Files/WinBUGS14/")
-
-read.bugs(model_url)
-
-schools.sim <- bugs(data = data, 
-                    inits = inits, 
-                    model.file = "C:/Users/Xinwei/Desktop/BUGS/mod1.bug",
-                    parameters = c("theta", "mu.theta", "sigma.theta"),
-                    n.chains = 4, 
-                    n.iter = 3000,
-                    n.burnin = 1000,
-                    n.sims = 2000,
-                    bugs.seed = 1234,
-                    bugs.directory = "c:/Program Files/WinBUGS14")
-
+schools.sim <-  bugs(data = data,
+                     inits = inits,
+                     model.file = mod1,
+                     parameters.to.save	
+                     = c("theta", "mu.theta", "sigma.theta"),
+                     n.chains = 4,
+                     n.iter = 2000,
+                     bugs.directory = "c:/Program Files/WinBUGS14/")
 
 ```
 
+Note: If you receive any error message about "Cannot open the connection" or "Permission denied", please reopen Rstudio with Run as administrator.
 
 ### Inference on MCMC samples
+
 Just show some basic analysis. You can play more on it.
+
 ```{r}
 
 # summary statistics
 print(schools.sim)
 plot(schools.sim)
 
-# trace plot
-plot(schools.sim$sims.list$theta[,1]~c(1:2000), 
+# time series plot
+plot(schools.sim$sims.list$theta[,1]~c(1:schools.sim$n.sims), 
      type = "l", 
      col = "red", 
      xlab = "t",
@@ -196,4 +185,10 @@ mean(schools.sim$sims.list$theta[,1])>mean(schools.sim$sims.list$theta[,3])
 
 ```
 
-
+# References
+---
+nocite: |
+  @sturtz2005r2winbugs, @dominici
+---
+::: {#refs}
+:::
