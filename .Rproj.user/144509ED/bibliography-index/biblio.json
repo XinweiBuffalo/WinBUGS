@@ -1,0 +1,49 @@
+{
+    "sources": [
+        {
+            "author": [
+                {
+                    "family": "Sturtz",
+                    "given": "Sibylle"
+                },
+                {
+                    "family": "Ligges",
+                    "given": "Uwe"
+                },
+                {
+                    "family": "Gelman",
+                    "given": "Andrew"
+                }
+            ],
+            "container-title": "Journal of Statistical software",
+            "id": "sturtz2005r2winbugs",
+            "issued": {
+                "date-parts": [
+                    [
+                        2005
+                    ]
+                ]
+            },
+            "page": "1-16",
+            "title": "R2WinBUGS: A package for running WinBUGS from r",
+            "title-short": "R2WinBUGS",
+            "type": "article-journal",
+            "volume": "12"
+        },
+        {
+            "URL": "https://www.biostat.jhsph.edu/~fdominic/teaching/bio656/lectures/lectures.html",
+            "author": [
+                {
+                    "family": "Dominici",
+                    "given": "Francesca"
+                }
+            ],
+            "container-title": "ML - Bio 656 lectures",
+            "id": "dominici",
+            "title": "Lab 8: Introduction to WinBUGS",
+            "title-short": "Lab 8",
+            "type": ""
+        }
+    ],
+    "project_biblios": []
+}

@@ -1,0 +1,2 @@
+"0","#install.packages(""R2WinBUGS"")"
+"0","library(""R2WinBUGS"")"

@@ -1,0 +1,3 @@
+"0",""
+"0","# time series plot"
+"0","plot(schools.sim, display.parallel = TRUE)"

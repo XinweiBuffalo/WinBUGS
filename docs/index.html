@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Xin-Wei Huang">
-<meta name="dcterms.date" content="2023-04-17">
+<meta name="dcterms.date" content="2023-04-13">
 <meta name="description" content="Lecture of STA667 Advanced Bayesian Inference in 2023 Spring">
 
 <title>A quick tutorial of WinBUGS and R2WinBUGS</title>
@@ -169,7 +169,7 @@ div.csl-indent {
     <div class="quarto-title-meta-heading">Affiliation</div>
     
       <div class="quarto-title-meta-contents">
-      Xin-Wei Huang 
+      <a href="https://scholar.google.com/citations?user=GNz_4loAAAAJ&amp;hl=en" target="_blank">Xin-Wei Huang</a> 
     </div>
       <div class="quarto-title-meta-contents">
           <p class="affiliation">
@@ -184,7 +184,7 @@ div.csl-indent {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">April 17, 2023</p>
+        <p class="date">April 13, 2023</p>
       </div>
     </div>
     
@@ -203,9 +203,10 @@ div.csl-indent {
   <li><a href="#getting-start-with-winbugs" id="toc-getting-start-with-winbugs" class="nav-link active" data-scroll-target="#getting-start-with-winbugs">Getting start with WinBUGS</a>
   <ul class="collapse">
   <li><a href="#installation-of-winbugs-1.4.3" id="toc-installation-of-winbugs-1.4.3" class="nav-link" data-scroll-target="#installation-of-winbugs-1.4.3">Installation of WinBUGS 1.4.3</a></li>
-  <li><a href="#example-of-using-winbugs" id="toc-example-of-using-winbugs" class="nav-link" data-scroll-target="#example-of-using-winbugs">Example of using WinBUGS</a></li>
+  <li><a href="#example-syntax-and-operation" id="toc-example-syntax-and-operation" class="nav-link" data-scroll-target="#example-syntax-and-operation">Example: Syntax and operation</a></li>
+  <li><a href="#example-use-doodle" id="toc-example-use-doodle" class="nav-link" data-scroll-target="#example-use-doodle">Example: Use doodle</a></li>
   </ul></li>
-  <li><a href="#the-r-interface-of-winbugs-r2winbugs" id="toc-the-r-interface-of-winbugs-r2winbugs" class="nav-link" data-scroll-target="#the-r-interface-of-winbugs-r2winbugs">The R interface of WinBUGS: R2WinBUGS</a>
+  <li><a href="#connect-to-r-r2winbugs" id="toc-connect-to-r-r2winbugs" class="nav-link" data-scroll-target="#connect-to-r-r2winbugs">Connect to R: R2WinBUGS</a>
   <ul class="collapse">
   <li><a href="#install-r2winbugs-package" id="toc-install-r2winbugs-package" class="nav-link" data-scroll-target="#install-r2winbugs-package">Install R2WinBUGS package</a></li>
   <li><a href="#school-data-example" id="toc-school-data-example" class="nav-link" data-scroll-target="#school-data-example">School data example</a>
@@ -215,6 +216,11 @@ div.csl-indent {
   <li><a href="#run-sampler" id="toc-run-sampler" class="nav-link" data-scroll-target="#run-sampler">Run sampler</a></li>
   <li><a href="#inference-on-mcmc-samples" id="toc-inference-on-mcmc-samples" class="nav-link" data-scroll-target="#inference-on-mcmc-samples">Inference on MCMC samples</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#softwares" id="toc-softwares" class="nav-link" data-scroll-target="#softwares">Softwares</a>
+  <ul class="collapse">
+  <li><a href="#comparisons" id="toc-comparisons" class="nav-link" data-scroll-target="#comparisons">Comparisons</a></li>
+  <li><a href="#intersting-visualization" id="toc-intersting-visualization" class="nav-link" data-scroll-target="#intersting-visualization">Intersting visualization</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -240,47 +246,108 @@ div.csl-indent {
 <li><p>Extract file folder <code>\winbugs143_unrestricted.zip\winbugs14_full_patched\WinBUGS14</code> to a path that you want to store the software, for example <code>C:\Program Files</code>.</p></li>
 <li><p>Create a shortcut for <code>WinBUGS14.exe</code> to desktop or start.</p></li>
 </ol>
-<p>For macOS, please check the <a href="https://www.r-bloggers.com/2012/01/running-r2winbugs-on-a-mac-running-osx/#:~:text=But%2C%20it%20would%20seem%20that,R2WinBUGS%20to%20run%20as%20well.">link</a>.</p>
+<p>For macOS, please check the <a href="https://www.r-bloggers.com/2012/01/running-r2winbugs-on-a-mac-running-osx/#:~:text=But%2C%20it%20would%20seem%20that,R2WinBUGS%20to%20run%20as%20well" target="_blank">link</a>.</p>
 </section>
-<section id="example-of-using-winbugs" class="level2">
-<h2 class="anchored" data-anchor-id="example-of-using-winbugs">Example of using WinBUGS</h2>
+<section id="example-syntax-and-operation" class="level2">
+<h2 class="anchored" data-anchor-id="example-syntax-and-operation">Example: Syntax and operation</h2>
 <p>Consider a statistical model <span class="math display">\[
 X_i \sim \text{Normal}(\mu,\sigma^2)
 \]</span> and given the prior distributions <span class="math inline">\(\mu \sim \text{Normal}(0, 100^2)\)</span> and <span class="math inline">\(1 / {\sigma}^2 \sim \text{Gamma}(0.001, 0.001)\)</span>.</p>
-<p>A WinBUGS program is consist of three sections: Model, Data, and Initial Values. Define our model in <code>model{...}</code>. Use <code>~</code> to specify probability distributions, or use <code>&lt;-</code> to make transformation of parameter and data. Data will be stored in a list which has the same syntax as R. Initial values are also stored in a list.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{bugs}</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="in">model{</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="in">  for (i in 1:20){</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="in">    x[i] ~ dnorm (mu[1], prec[1])</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="in">  mu[1] ~ dnorm (0, 0.0001)</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="in">  prec[1] ~ dgamma (0.001, 0.001)</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="in">  s2[1] &lt;- 1/prec[1]</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="in">list(x = c(6.62, 6.71, 5.07, 4.39, 5.68, 3.94, 5.83, 2.31, 3.60, 4.64,</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="in">1.79, 3.12, 3.46, 8.25, 5.49, 6.49, 2.65, 9.14, 5.31, 6.58))</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="in">list( mu=c(0), prec=c(1) )</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A WinBUGS program consists of three sections: Model, Data, and Initial Values. Define our model in <code>model{...}</code>. Use <code>~</code> to specify probability distributions, or use <code>&lt;-</code> to make transformation of parameters and data. Data will be stored in a list which has the same syntax as R. Initial values are also stored in a list.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>model{</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>){</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    x[i] <span class="sc">~</span> <span class="fu">dnorm</span> (mu[<span class="dv">1</span>], prec[<span class="dv">1</span>])</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  mu[<span class="dv">1</span>] <span class="sc">~</span> <span class="fu">dnorm</span> (<span class="dv">0</span>, <span class="fl">0.0001</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  prec[<span class="dv">1</span>] <span class="sc">~</span> <span class="fu">dgamma</span> (<span class="fl">0.001</span>, <span class="fl">0.001</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  s2[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>prec[<span class="dv">1</span>]</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="fl">6.62</span>, <span class="fl">6.71</span>, <span class="fl">5.07</span>, <span class="fl">4.39</span>, <span class="fl">5.68</span>, <span class="fl">3.94</span>, <span class="fl">5.83</span>, <span class="fl">2.31</span>, <span class="fl">3.60</span>, <span class="fl">4.64</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fl">1.79</span>, <span class="fl">3.12</span>, <span class="fl">3.46</span>, <span class="fl">8.25</span>, <span class="fl">5.49</span>, <span class="fl">6.49</span>, <span class="fl">2.65</span>, <span class="fl">9.14</span>, <span class="fl">5.31</span>, <span class="fl">6.58</span>))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>( <span class="at">mu=</span><span class="fu">c</span>(<span class="dv">0</span>), <span class="at">prec=</span><span class="fu">c</span>(<span class="dv">1</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Note: In BUGS, the second parameter of <code>dnorm</code> is the inverse of normal variance.</p>
-<p>Now let’s see how to run these codes in WinBUGS. Open WinBUGS and create an empty script (File -&gt; New). <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/01_interface.png?raw=true" class="img-fluid" alt="New script"></p>
-<p>Copy the above code and paste them into WinBUGS. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/02_script.png?raw=true" class="img-fluid" alt="BUGS program"></p>
-<p>Open the Specification Tool (Model -&gt; Specification), then highlight the model section and do “check model”. If you define your model correctly, it will show “model is syntactically correct.” at the bottom left-hand corner. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/03_specify_and_check.png?raw=true" class="img-fluid" alt="Model specification"></p>
-<p>The next step is to load the data. Highlight data section and click “load data”. You will see “data loaded”at the bottom left-hand corner. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/04_load_data.png?raw=true" class="img-fluid" alt="Load data"></p>
-<p>And then compile the model by click “compile” and look for “model compiled.” <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/05_compile.png?raw=true" class="img-fluid" alt="Compile"></p>
-<p>Similarly, highlight the initial values and click “load inits”. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/06_inits.png?raw=true" class="img-fluid" alt="Initis"></p>
-<p>Open Sample Monitor Tool (Inference -&gt; Samples), type in the parameters that we are going to monitor, for example “mu” and “s2”, then click “set”. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/07_sampler_par.png?raw=true" class="img-fluid" alt="Sampler"></p>
-<p>Open Update Tool (Model -&gt; Update) and type in how many samples you would like to generate. Click “update” and wait for “updates took x s” message when update done. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/09_update_done.png?raw=true" class="img-fluid" alt="Update done"></p>
-<p>You can use Sample Monitor Tool to do summary statistics, time series plot for MCMC samples, density curve, etc. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/10_post.png?raw=true" class="img-fluid" alt="Posterior"></p>
+<p>Now let’s see how to run these codes in WinBUGS. Open WinBUGS and create an empty script (File -&gt; New). <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/01_interface.png?raw=true" class="img-fluid"></p>
+<p>Copy the above code and paste them into WinBUGS. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/02_script.png?raw=true" class="img-fluid"></p>
+<p>Open the Specification Tool (Model -&gt; Specification), then highlight the model section and do “check model”. If you define your model correctly, it will show “model is syntactically correct” at the bottom left-hand corner. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/03_specify_and_check.png?raw=true" class="img-fluid"></p>
+<p>The next step is to load the data. Highlight data section and click “load data”. You will see “data loaded”at the bottom left-hand corner. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/04_load_data.png?raw=true" class="img-fluid"></p>
+<p>And then compile the model by click “compile” and look for “model compiled”. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/05_compile.png?raw=true" class="img-fluid"></p>
+<p>Similarly, highlight the initial values and click “load inits”. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/06_inits.png?raw=true" class="img-fluid"></p>
+<p>Open Sample Monitor Tool (Inference -&gt; Samples), type in the parameters that we are going to monitor, for example “mu” and “s2”, then click “set”. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/07_sampler_par.png?raw=true" class="img-fluid"></p>
+<p>Open Update Tool (Model -&gt; Update) and type in how many samples you would like to generate. Click “update” and wait for “updates took x s” message when update done. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/09_update_done.png?raw=true" class="img-fluid"></p>
+<p>You can use Sample Monitor Tool to do summary statistics, time series plot for MCMC samples, density curve, etc. <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/10_post.png?raw=true" class="img-fluid"></p>
+</section>
+<section id="example-use-doodle" class="level2">
+<h2 class="anchored" data-anchor-id="example-use-doodle">Example: Use doodle</h2>
+<p>DoodleBUGS is a special visualized tool in WinBUGS. You can specify graphical models by doodle, which uses a hyper-diagram approach to add extra information to the graph to give a complete model specification.</p>
+<p>First, create a new script for doodle. (Doodle -&gt; New) <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/11_Doodle.png?raw=true" class="img-fluid"></p>
+<p>Doodle includes three types of objects: node, plate, and edge. Easily speaking, node uses for specifying parameters and data. Plate is the loop structure. Edge builds the connection between the nodes. Operation on these objects are as follow:</p>
+
+<style scoped="">
+table {
+  font-size: 13px;
+}
+</style>
+<table class="table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 34%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Operation</th>
+<th style="text-align: center;">Node</th>
+<th style="text-align: center;">Plate</th>
+<th style="text-align: center;">Edge (A -&gt; B)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Creating</td>
+<td style="text-align: center;">Click an empty region</td>
+<td style="text-align: center;"><code>ctrl</code>+ click an empty region</td>
+<td style="text-align: center;">Select B then <code>ctrl</code> + click A</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Selecting</td>
+<td style="text-align: center;">Click the node</td>
+<td style="text-align: center;">Click the bottom or right border</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Deleting</td>
+<td style="text-align: center;">Select then <code>del</code></td>
+<td style="text-align: center;">Select then <code>ctrl</code> + <code>del</code></td>
+<td style="text-align: center;">Select B then <code>ctrl</code> + click A</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Moving</td>
+<td style="text-align: center;">Select and drag</td>
+<td style="text-align: center;">Select then drag the border</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Resizing</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Select and hold the bottom right corner, then drag</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/12_Node.png?raw=true" class="img-fluid"></p>
+<p>Suppose we have a logistic regression model: <span class="math display">\[y_i|\pi_i \sim \text{Bernoulli}(\pi_i)\]</span> where the logit link is <span class="math inline">\(\text{logit}(\pi_i)=\alpha+\beta x_i\)</span> and the hyper-priors are <span class="math inline">\(\alpha \sim \beta \sim \text{Normal}(0, 10^6)\)</span>. Try to specify the model using doodle. Once finished, the doodle can easily transform to the script of BUGS (Doodle -&gt; Write Code). <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/13_Doodel_code.png?raw=true" class="img-fluid"></p>
 </section>
 </section>
-<section id="the-r-interface-of-winbugs-r2winbugs" class="level1">
-<h1>The R interface of WinBUGS: R2WinBUGS</h1>
-<p><code>R2WinBUGS</code> is an package which provides an interface for running WinBUGS on R. Although we still need to specify model in a separate <code>.bug</code> file, loading data can be done on R, and complex inference on the MCMC samples will be much more easier and friendly.</p>
+<section id="connect-to-r-r2winbugs" class="level1">
+<h1>Connect to R: R2WinBUGS</h1>
+<p><code>R2WinBUGS</code> is an package which provides an interface for running WinBUGS on R. The computation still rely on WinBUGS, but coding job can be done in R. It will be much more easier to create BUGS script files, convert data, and analyze posterior MCMC samples.</p>
 <section id="install-r2winbugs-package" class="level2">
 <h2 class="anchored" data-anchor-id="install-r2winbugs-package">Install R2WinBUGS package</h2>
 <p>Use <code>install.packages</code> and <code>library</code> to install and load the package.</p>
@@ -292,8 +359,8 @@ X_i \sim \text{Normal}(\mu,\sigma^2)
 <section id="school-data-example" class="level2">
 <h2 class="anchored" data-anchor-id="school-data-example">School data example</h2>
 <p>The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools from an experiment Rubin (1981). The data includes the estimated treatment effects and the corresponding standard error from an ANCOVA. This example was analyzed using a hierarchical normal model: <span class="math display">\[
-y_i\sim \text{Normal}(\theta_j, \sigma_j^2)
-\]</span> given the priors and hyperpriors <span class="math inline">\(\theta_j \sim \text{N}(\mu_\theta, \sigma_\theta^2=1/\tau_j)\)</span>, <span class="math inline">\(\mu_\theta \sim \text{N}(0, 10^6)\)</span>, and <span class="math inline">\(\sigma_\theta \sim \text{U}(0, 1000)\)</span>.</p>
+y_j|\theta_j, \sigma_j^2 \sim \text{Normal}(\theta_j, \sigma_j^2=1/\tau_j)
+\]</span> given the priors and hyperpriors <span class="math inline">\(\theta_j \sim \text{N}(\mu_\theta, \sigma_\theta^2=1/\tau_\theta)\)</span>, <span class="math inline">\(\mu_\theta \sim \text{N}(0, 10^6)\)</span>, and <span class="math inline">\(\sigma_\theta \sim \text{U}(0, 1000)\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(schools)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>schools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -360,37 +427,37 @@ y_i\sim \text{Normal}(\theta_j, \sigma_j^2)
 </section>
 <section id="inference-on-mcmc-samples" class="level3">
 <h3 class="anchored" data-anchor-id="inference-on-mcmc-samples">Inference on MCMC samples</h3>
-<p>Just show some basic analysis. You can play more on it.</p>
+<p>Just show some basic analysis. You can play more on it. Other packages like <code>posterior</code> and <code>mcmc</code> are also suggested.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary statistics</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(schools.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Inference for Bugs model at "C:/Users/Xinwei/AppData/Local/Temp/RtmpQ7DaKj/model4bc851e4a71.txt", fit using WinBUGS,
+<pre><code>Inference for Bugs model at "C:/Users/Xinwei/AppData/Local/Temp/RtmpeOkXxl/model61a436ea78ef.txt", fit using WinBUGS,
  4 chains, each with 2000 iterations (first 1000 discarded), n.thin = 4
  n.sims = 1000 iterations saved
             mean  sd  2.5%  25%  50%  75% 97.5% Rhat n.eff
-theta[1]    12.4 8.7  -2.5  6.6 11.2 16.9  32.5    1   360
-theta[2]     8.4 6.9  -5.1  4.2  8.2 12.6  22.6    1  1000
-theta[3]     6.8 8.4 -11.5  1.9  7.4 12.3  23.7    1   810
-theta[4]     8.3 7.0  -6.2  4.2  8.4 12.4  22.7    1  1000
-theta[5]     5.3 7.1 -10.1  1.1  5.8 10.4  17.2    1   340
-theta[6]     6.2 7.4 -10.2  1.9  6.4 11.2  19.3    1   390
-theta[7]    11.2 7.0  -0.7  6.4 10.6 15.4  26.9    1  1000
-theta[8]     9.2 8.4  -7.3  4.5  9.0 14.1  26.2    1  1000
-mu.theta     8.4 5.4  -2.3  4.9  8.1 12.0  19.0    1  1000
-sigma.theta  7.2 5.6   0.5  3.0  5.9 10.3  20.9    1    85
-deviance    60.7 2.3  57.1 59.2 60.2 61.8  66.5    1   770
+theta[1]    12.3 8.9  -2.4  7.0 11.2 16.0  34.4  1.0   450
+theta[2]     8.1 6.5  -5.0  4.3  8.3 12.4  20.2  1.0   960
+theta[3]     6.3 8.3 -11.3  1.4  7.1 11.6  21.2  1.0   350
+theta[4]     7.6 6.9  -6.2  3.1  8.0 12.0  21.6  1.0   640
+theta[5]     5.1 7.0 -11.3  0.6  5.8  9.9  16.9  1.0   230
+theta[6]     6.1 7.3  -9.0  1.6  6.7 10.9  19.7  1.0   970
+theta[7]    11.3 7.1  -1.4  6.5 10.9 15.2  28.5  1.0  1000
+theta[8]     9.0 8.4  -7.3  4.2  8.9 13.5  26.9  1.0  1000
+mu.theta     8.4 5.4  -2.7  5.3  8.5 11.5  19.3  1.0  1000
+sigma.theta  7.5 5.6   0.4  3.4  6.2 10.5  21.1  1.1    64
+deviance    60.5 2.3  57.1 59.0 60.1 61.5  66.1  1.0  1000
 
 For each parameter, n.eff is a crude measure of effective sample size,
 and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 
 DIC info (using the rule, pD = Dbar-Dhat)
-pD = 3.1 and DIC = 63.8
+pD = 3.1 and DIC = 63.6
 DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(schools.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># time series plot</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]<span class="sc">~</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>schools.sim<span class="sc">$</span>n.sims), </span>
@@ -399,16 +466,16 @@ DIC is an estimate of expected predictive error (lower deviance is better).</cod
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"t"</span>,</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(theta[<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># density for theta_1</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># More inference</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Bayes type-I error for testing H0: theta_1&lt;10</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]<span class="sc">&gt;</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Probability calculation</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]<span class="sc">&gt;</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.571</code></pre>
 </div>
@@ -421,11 +488,78 @@ DIC is an estimate of expected predictive error (lower deviance is better).</cod
 </section>
 </section>
 </section>
+<section id="softwares" class="level1">
+<h1>Softwares</h1>
+<section id="comparisons" class="level2">
+<h2 class="anchored" data-anchor-id="comparisons">Comparisons</h2>
+<table class="table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>BUGS</th>
+<th>JAGS</th>
+<th>STAN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Algorithms</td>
+<td>GS, MH</td>
+<td>GS, MH</td>
+<td>Hamiltonian MC</td>
+</tr>
+<tr class="even">
+<td>Model complexity</td>
+<td>Moderate</td>
+<td>Moderate</td>
+<td>High</td>
+</tr>
+<tr class="odd">
+<td>Syntax</td>
+<td>S</td>
+<td>S</td>
+<td>C++</td>
+</tr>
+<tr class="even">
+<td>Interface</td>
+<td>WinBUGS, OpenBUGS</td>
+<td>R</td>
+<td>R, Python, MATLAB, etc.</td>
+</tr>
+<tr class="odd">
+<td>R packages</td>
+<td>R2WinBUGS</td>
+<td>rjags, R2jags</td>
+<td>RStan, Cmdstanr</td>
+</tr>
+<tr class="even">
+<td>User Community</td>
+<td>Not active</td>
+<td>Large and active</td>
+<td>Large and active</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="intersting-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="intersting-visualization">Intersting visualization</h2>
+<p>A very interesting and well-produced web page: <a href="https://chi-feng.github.io/mcmc-demo/app.html" target="_blank">The Markov-chain Monte Carlo Interactive Gallery</a></p>
+</section>
+</section>
 <section id="references" class="level1">
 <h1>References</h1>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-dominici" class="csl-entry" role="doc-biblioentry">
 Dominici, Francesca. n.d. <span>“Lab 8: Introduction to WinBUGS.”</span> <em>ML - Bio 656 Lectures</em>. <a href="https://www.biostat.jhsph.edu/~fdominic/teaching/bio656/lectures/lectures.html">https://www.biostat.jhsph.edu/~fdominic/teaching/bio656/lectures/lectures.html</a>.
+</div>
+<div id="ref-feng" class="csl-entry" role="doc-biblioentry">
+Feng, Chi. n.d. <em>MCMC Interactive Gallery</em>. <a href="https://chi-feng.github.io/mcmc-demo/app.html">https://chi-feng.github.io/mcmc-demo/app.html</a>.
 </div>
 <div id="ref-sturtz2005r2winbugs" class="csl-entry" role="doc-biblioentry">
 Sturtz, Sibylle, Uwe Ligges, and Andrew Gelman. 2005. <span>“R2WinBUGS: A Package for Running WinBUGS from r.”</span> <em>Journal of Statistical Software</em> 12: 1–16.
