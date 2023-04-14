@@ -26,9 +26,9 @@ The BUGS (Bayesian inference Using Gibbs Sampling) is a project on developing so
 
 3.  Create a shortcut for `WinBUGS14.exe` to desktop or start.
 
-For macOS, please check the  [link](https://www.r-bloggers.com/2012/01/running-r2winbugs-on-a-mac-running-osx/#:~:text=But%2C%20it%20would%20seem%20that,R2WinBUGS%20to%20run%20as%20well.).
+For macOS, please check the [link](https://www.r-bloggers.com/2012/01/running-r2winbugs-on-a-mac-running-osx/#:~:text=But%2C%20it%20would%20seem%20that,R2WinBUGS%20to%20run%20as%20well.).
 
-## Example of using WinBUGS
+## Example: Syntax and operation
 
 Consider a statistical model $$
 X_i \sim \text{Normal}(\mu,\sigma^2)
@@ -36,7 +36,7 @@ $$ and given the prior distributions $\mu \sim \text{Normal}(0, 100^2)$ and $1 /
 
 A WinBUGS program is consist of three sections: Model, Data, and Initial Values. Define our model in `model{...}`. Use `~` to specify probability distributions, or use `<-` to make transformation of parameter and data. Data will be stored in a list which has the same syntax as R. Initial values are also stored in a list.
 
-``` {{bugs}}
+``` BUGS
 
 model{
   for (i in 1:20){
@@ -75,7 +75,11 @@ Open Update Tool (Model -\> Update) and type in how many samples you would like 
 
 You can use Sample Monitor Tool to do summary statistics, time series plot for MCMC samples, density curve, etc. ![Posterior](https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/10_post.png?raw=true)
 
-# The R interface of WinBUGS: R2WinBUGS
+## Example: Use doodle
+
+
+
+# Connect to R: R2WinBUGS
 
 `R2WinBUGS` is an package which provides an interface for running WinBUGS on R. Although we still need to specify model in a separate `.bug` file, loading data can be done on R, and complex inference on the MCMC samples will be much more easier and friendly.
 
@@ -185,10 +189,14 @@ mean(schools.sim$sims.list$theta[,1])>mean(schools.sim$sims.list$theta[,3])
 
 ```
 
+# Other softwares
+
 # References
+
 ---
 nocite: |
   @sturtz2005r2winbugs, @dominici
 ---
+
 ::: {#refs}
 :::
