@@ -42,7 +42,7 @@ model{
     x[i] ~ dnorm (mu, prec)
   }
   
-  mu ~ dnorm (0, 0.0001)
+  mu ~ dnorm (0, 0.00001)
   prec ~ dgamma (0.001, 0.001)
   
   s2 <- 1/prec
@@ -82,26 +82,28 @@ First, create a new script for doodle. (Doodle -\> New) ![](https://github.com/X
 
 Doodle includes three types of objects: node, plate, and edge. Easily speaking, node uses for specifying parameters and data. Plate is the loop structure. Edge builds the connection between the nodes. Operation on these objects are as follow:
 
+```{=html}
 <style scoped>
 table {
   font-size: 13px;
 }
 </style>
+```
+| Operation |         Node          |                       Plate                        |         Edge (A -\> B)         |
+|:-------------:|:-------------:|:--------------------:|:------------------:|
+| Creating  | Click an empty region |           `ctrl`+ click an empty region            | Select B then `ctrl` + click A |
+| Selecting |    Click the node     |          Click the bottom or right border          |                                |
+| Deleting  |   Select then `del`   |             Select then `ctrl` + `del`             | Select B then `ctrl` + click A |
+|  Moving   |    Select and drag    |            Select then drag the border             |                                |
+| Resizing  |                       | Select and hold the bottom right corner, then drag |                                |
 
-| Operation |          Node         |               Plate              |          Edge (A -> B)         |
-|:---------:|:---------------------:|:--------------------------------:|:------------------------------:|
-| Creating  | Click an empty region | `ctrl`+ click an empty region    | Select B then `ctrl` + click A |
-| Selecting | Click the node        | Click the bottom or right border |                                |
-| Deleting  | Select then `del`     | Select then `ctrl` + `del`       | Select B then `ctrl` + click A |
-| Moving    | Select and drag       | Select then drag the border      |                                |
-| Resizing  |                       | Select and hold the bottom right corner, then drag|               |
 ![](https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/12_Node.png?raw=true)
 
 Suppose we have a logistic regression model: $$y_i|\pi_i \sim \text{Bernoulli}(\pi_i)$$ where the logit link is $\text{logit}(\pi_i)=\alpha+\beta x_i$ and the hyper-priors are $\alpha \sim \beta \sim \text{Normal}(0, 10^6)$. Try to specify the model using doodle. Once finished, the doodle can easily transform to the script of BUGS (Doodle -\> Write Code). ![](https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/13_Doodel_code.png?raw=true)
 
 # Connect to R: R2WinBUGS
 
-`R2WinBUGS` is an package which provides an interface for running WinBUGS on R. The computation still rely on WinBUGS, but coding job can be done in R. It will be much more easier to create BUGS script files, convert data, and analyze posterior MCMC samples.
+`R2WinBUGS` is a package which provides an interface for running WinBUGS on R. The computation still rely on WinBUGS, but coding job can be done in R. It will be much more easier to create BUGS script files, convert data, and analyze posterior MCMC samples.
 
 ## Install R2WinBUGS package
 
@@ -182,7 +184,7 @@ Note: If you receive any error message about "Cannot open the connection" or "Pe
 
 ### Inference on MCMC samples
 
-Just show some basic analysis. You can play more on it. Other packages like `posterior` and `mcmc` are also suggested. 
+Just show some basic analysis. You can play more on it. Other packages like `posterior` and `mcmc` are also suggested.
 
 ```{r}
 
@@ -212,16 +214,18 @@ mean(schools.sim$sims.list$theta[,1])>mean(schools.sim$sims.list$theta[,3])
 # Softwares
 
 ## Comparisons
+
 | Feature          | BUGS              | JAGS             | STAN                    |
-|------------------|-------------------|------------------|-------------------------|
+|-----------------|-----------------|-----------------|---------------------|
 | Algorithms       | GS, MH            | GS, MH           | Hamiltonian MC          |
 | Model complexity | Moderate          | Moderate         | High                    |
-|      Syntax      | S                 | S                | C++                     |
-|     Interface    | WinBUGS, OpenBUGS | R                | R, Python, MATLAB, etc. |
+| Syntax           | S                 | S                | C++                     |
+| Interface        | WinBUGS, OpenBUGS | R                | R, Python, MATLAB, etc. |
 | R packages       | R2WinBUGS         | rjags, R2jags    | RStan, Cmdstanr         |
-|  User Community  | Not active        | Large and active | Large and active        |
+| User Community   | Not active        | Large and active | Large and active        |
 
 ## Intersting visualization
+
 A very interesting and well-produced web page: [The Markov-chain Monte Carlo Interactive Gallery](https://chi-feng.github.io/mcmc-demo/app.html){target="_blank"}
 
 # References

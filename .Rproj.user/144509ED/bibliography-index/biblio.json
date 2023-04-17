@@ -43,6 +43,18 @@
             "title": "Lab 8: Introduction to WinBUGS",
             "title-short": "Lab 8",
             "type": ""
+        },
+        {
+            "URL": "https://chi-feng.github.io/mcmc-demo/app.html",
+            "author": [
+                {
+                    "family": "Feng",
+                    "given": "Chi"
+                }
+            ],
+            "container-title": "MCMC Interactive Gallery",
+            "id": "feng",
+            "type": ""
         }
     ],
     "project_biblios": []
