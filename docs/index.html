@@ -268,10 +268,10 @@ table {
 </style>
 <table class="table">
 <colgroup>
-<col style="width: 24%">
-<col style="width: 24%">
-<col style="width: 26%">
-<col style="width: 24%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 36%">
+<col style="width: 21%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -316,6 +316,7 @@ table {
 </table>
 <p><img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/12_Node.png?raw=true" class="img-fluid"></p>
 <p>Suppose we have a logistic regression model: <span class="math display">\[y_i|\pi_i \sim \text{Bernoulli}(\pi_i)\]</span> where the logit link is <span class="math inline">\(\text{logit}(\pi_i)=\alpha+\beta x_i\)</span> and the hyper-priors are <span class="math inline">\(\alpha \sim \beta \sim \text{Normal}(0, 10^6)\)</span>. Try to specify the model using doodle. Once finished, the doodle can easily transform to the script of BUGS (Doodle -&gt; Write Code). <img src="https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/13_Doodel_code.png?raw=true" class="img-fluid"></p>
+<p>For more WinBUGS examples, see <span class="citation" data-cites="dominici">Dominici (<a href="#ref-dominici" role="doc-biblioref">2008</a>)</span></p>
 </section>
 </section>
 <section id="connect-to-r-r2winbugs" class="level1">
@@ -461,7 +462,7 @@ DIC is an estimate of expected predictive error (lower deviance is better).</cod
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
-<p>For more examples, see <span class="citation" data-cites="sturtz2005r2winbugs">Sturtz, Ligges, and Gelman (<a href="#ref-sturtz2005r2winbugs" role="doc-biblioref">2005</a>)</span> and <span class="citation" data-cites="dominici">Dominici (<a href="#ref-dominici" role="doc-biblioref">n.d.</a>)</span></p>
+<p>For more examples, see <span class="citation" data-cites="sturtz2005r2winbugs">Sturtz, Ligges, and Gelman (<a href="#ref-sturtz2005r2winbugs" role="doc-biblioref">2005</a>)</span></p>
 </section>
 </section>
 </section>
@@ -471,10 +472,10 @@ DIC is an estimate of expected predictive error (lower deviance is better).</cod
 <h2 class="anchored" data-anchor-id="comparisons">Comparisons</h2>
 <table class="table">
 <colgroup>
-<col style="width: 24%">
-<col style="width: 24%">
-<col style="width: 24%">
-<col style="width: 26%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 29%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -526,7 +527,7 @@ DIC is an estimate of expected predictive error (lower deviance is better).</cod
 </section>
 <section id="intersting-visualization" class="level2">
 <h2 class="anchored" data-anchor-id="intersting-visualization">Intersting visualization</h2>
-<p>A very interesting and well-produced web page: <a href="https://chi-feng.github.io/mcmc-demo/app.html" target="_blank">The Markov-chain Monte Carlo Interactive Gallery</a> <span class="citation" data-cites="feng">Feng (<a href="#ref-feng" role="doc-biblioref">n.d.</a>)</span></p>
+<p>A very interesting and well-produced web page: <a href="https://chi-feng.github.io/mcmc-demo/app.html" target="_blank">The Markov-chain Monte Carlo Interactive Gallery</a> <span class="citation" data-cites="feng">Feng (<a href="#ref-feng" role="doc-biblioref">2018</a>)</span></p>
 </section>
 </section>
 <section id="references" class="level1">
@@ -535,10 +536,10 @@ DIC is an estimate of expected predictive error (lower deviance is better).</cod
 <hr>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-dominici" class="csl-entry" role="listitem">
-Dominici, Francesca. n.d. <span>“Lab 8: Introduction to WinBUGS.”</span> <em>ML - Bio 656 Lectures</em>. <a href="https://www.biostat.jhsph.edu/~fdominic/teaching/bio656/lectures/lectures.html">https://www.biostat.jhsph.edu/~fdominic/teaching/bio656/lectures/lectures.html</a>.
+Dominici, Francesca. 2008. <span>“Lab 8: Introduction to WinBUGS.”</span> <em>ML - Bio 656 Lectures</em>. <a href="https://www.biostat.jhsph.edu/~fdominic/teaching/bio656/labs/labs08/Lab8.IntroWinBUGS.pdf">https://www.biostat.jhsph.edu/~fdominic/teaching/bio656/labs/labs08/Lab8.IntroWinBUGS.pdf</a>.
 </div>
 <div id="ref-feng" class="csl-entry" role="listitem">
-Feng, Chi. n.d. <em>MCMC Interactive Gallery</em>. <a href="https://chi-feng.github.io/mcmc-demo/app.html">https://chi-feng.github.io/mcmc-demo/app.html</a>.
+Feng, Chi. 2018. <em>MCMC Interactive Gallery</em>. <a href="https://chi-feng.github.io/mcmc-demo/app.html">https://chi-feng.github.io/mcmc-demo/app.html</a>.
 </div>
 <div id="ref-rubin1981estimation" class="csl-entry" role="listitem">
 Rubin, Donald B. 1981. <span>“Estimation in Parallel Randomized Experiments.”</span> <em>Journal of Educational Statistics</em> 6 (4): 377–401.

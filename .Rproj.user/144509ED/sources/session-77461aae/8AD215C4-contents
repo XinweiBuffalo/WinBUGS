@@ -90,7 +90,7 @@ table {
 </style>
 ```
 | Operation |         Node          |                       Plate                        |         Edge (A -\> B)         |
-|:-------------:|:-------------:|:-------------------------:|:--------------:|
+|:---------:|:---------------------:|:--------------------------------------------------:|:------------------------------:|
 | Creating  | Click an empty region |           `ctrl`+ click an empty region            | Select B then `ctrl` + click A |
 | Selecting |    Click the node     |          Click the bottom or right border          |                                |
 | Deleting  |   Select then `del`   |             Select then `ctrl` + `del`             | Select B then `ctrl` + click A |
@@ -100,8 +100,6 @@ table {
 ![](https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/12_Node.png?raw=true)
 
 Suppose we have a logistic regression model: $$y_i|\pi_i \sim \text{Bernoulli}(\pi_i)$$ where the logit link is $\text{logit}(\pi_i)=\alpha+\beta x_i$ and the hyper-priors are $\alpha \sim \beta \sim \text{Normal}(0, 10^6)$. Try to specify the model using doodle. Once finished, the doodle can easily transform to the script of BUGS (Doodle -\> Write Code). ![](https://github.com/XinweiBuffalo/WinBUGS/blob/main/pic/13_Doodel_code.png?raw=true)
-
-For more WinBUGS examples, see @dominici
 
 # Connect to R: R2WinBUGS
 
@@ -213,14 +211,14 @@ mean(schools.sim$sims.list$theta[,1])>mean(schools.sim$sims.list$theta[,3])
 
 ```
 
-For more examples, see @sturtz2005r2winbugs
+For more examples, see @sturtz2005r2winbugs and @dominici
 
 # Softwares
 
 ## Comparisons
 
 | Feature          | BUGS              | JAGS             | STAN                    |
-|-----------------|-----------------|-----------------|---------------------|
+|------------------|-------------------|------------------|-------------------------|
 | Algorithms       | GS, MH            | GS, MH           | Hamiltonian MC          |
 | Model complexity | Moderate          | Moderate         | High                    |
 | Syntax           | S                 | S                | C++                     |
