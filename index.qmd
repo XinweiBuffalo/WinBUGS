@@ -90,7 +90,7 @@ table {
 </style>
 ```
 | Operation |         Node          |                       Plate                        |         Edge (A -\> B)         |
-|:---------------:|:---------------:|:-------------------:|:-----------------:|
+|:----------------:|:----------------:|:-----------------:|:----------------:|
 | Creating  | Click an empty region |           `ctrl`+ click an empty region            | Select B then `ctrl` + click A |
 | Selecting |    Click the node     |          Click the bottom or right border          |                                |
 | Deleting  |   Select then `del`   |             Select then `ctrl` + `del`             | Select B then `ctrl` + click A |
@@ -116,11 +116,11 @@ library("R2WinBUGS")
 
 ## School data example
 
-The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools from an experiment Rubin (1981). The data includes the estimated treatment effects and the corresponding standard error from an ANCOVA. This example was analyzed using a hierarchical normal model: $$
+The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools from an experiment @rubin1981estimation. The data includes the estimated treatment effects and the corresponding standard error from an ANCOVA. This example was analyzed using a hierarchical normal model: $$
 y_j|\theta_j, \sigma_j^2 \sim \text{Normal}(\theta_j, \sigma_j^2=1/\tau_j)
 $$ given the priors and hyperpriors $\theta_j \sim \text{N}(\mu_\theta, \sigma_\theta^2=1/\tau_\theta)$, $\mu_\theta \sim \text{N}(0, 10^6)$, and $\sigma_\theta \sim \text{U}(0, 1000)$.
 
-```{r}
+```{r cache = TRUE}
 data(schools)
 schools
 ```
@@ -129,7 +129,7 @@ schools
 
 To specify the model, we use the same syntax as we did in WinBUGS. Then create a `.txt` or `.bug` file to store the model at local path. It is also allowed to use a function containing a `BUGS` model since is has the similar syntax as R. While applying this model, only a temporary file will be created.
 
-```{r}
+```{r cache = TRUE}
 mod1 <- function(){
   for (j in 1:J)
   {
@@ -150,7 +150,7 @@ Note: When using truncation specification, `%_%` will be needed. Check `?R2WinBU
 
 Data and initial values can be arranged as lists in R script. Save initial values lists to be function avoid repeated specifying values for multiple chains.
 
-```{r}
+```{r cache = TRUE}
 J <- nrow(schools)
 y <- schools$estimate
 sigma.y <- schools$sd
@@ -186,7 +186,7 @@ Note: If you receive any error message about "Cannot open the connection" or "Pe
 
 Just show some basic analysis. You can play more on it. Other packages like `posterior` and `mcmc` are also suggested.
 
-```{r}
+```{r cache = TRUE}
 
 # summary statistics
 print(schools.sim)
@@ -211,12 +211,14 @@ mean(schools.sim$sims.list$theta[,1])>mean(schools.sim$sims.list$theta[,3])
 
 ```
 
+For more examples, see @sturtz2005r2winbugs and @dominici
+
 # Softwares
 
 ## Comparisons
 
 | Feature          | BUGS              | JAGS             | STAN                    |
-|------------------|------------------|------------------|--------------------|
+|------------------|------------------|------------------|-------------------|
 | Algorithms       | GS, MH            | GS, MH           | Hamiltonian MC          |
 | Model complexity | Moderate          | Moderate         | High                    |
 | Syntax           | S                 | S                | C++                     |
@@ -226,13 +228,12 @@ mean(schools.sim$sims.list$theta[,1])>mean(schools.sim$sims.list$theta[,3])
 
 ## Intersting visualization
 
-A very interesting and well-produced web page: [The Markov-chain Monte Carlo Interactive Gallery](https://chi-feng.github.io/mcmc-demo/app.html){target="_blank"}
+A very interesting and well-produced web page: [The Markov-chain Monte Carlo Interactive Gallery](https://chi-feng.github.io/mcmc-demo/app.html){target="_blank"} @feng
 
 # References
 
 ---
-nocite: |
-  @sturtz2005r2winbugs, @dominici, @feng, @rubin1981estimation
+
 ---
 
 ::: {#refs}

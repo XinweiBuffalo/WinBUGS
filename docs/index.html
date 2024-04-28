@@ -268,10 +268,10 @@ table {
 </style>
 <table class="table">
 <colgroup>
-<col style="width: 22%">
-<col style="width: 22%">
-<col style="width: 28%">
-<col style="width: 25%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 26%">
+<col style="width: 24%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -331,10 +331,10 @@ table {
 </section>
 <section id="school-data-example" class="level2">
 <h2 class="anchored" data-anchor-id="school-data-example">School data example</h2>
-<p>The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools from an experiment Rubin (1981). The data includes the estimated treatment effects and the corresponding standard error from an ANCOVA. This example was analyzed using a hierarchical normal model: <span class="math display">\[
+<p>The Scholastic Aptitude Test (SAT) data comes from the SAT-V (Verbal) on eight different high schools from an experiment <span class="citation" data-cites="rubin1981estimation">Rubin (<a href="#ref-rubin1981estimation" role="doc-biblioref">1981</a>)</span>. The data includes the estimated treatment effects and the corresponding standard error from an ANCOVA. This example was analyzed using a hierarchical normal model: <span class="math display">\[
 y_j|\theta_j, \sigma_j^2 \sim \text{Normal}(\theta_j, \sigma_j^2=1/\tau_j)
 \]</span> given the priors and hyperpriors <span class="math inline">\(\theta_j \sim \text{N}(\mu_\theta, \sigma_\theta^2=1/\tau_\theta)\)</span>, <span class="math inline">\(\mu_\theta \sim \text{N}(0, 10^6)\)</span>, and <span class="math inline">\(\sigma_\theta \sim \text{U}(0, 1000)\)</span>.</p>
-<div class="cell">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-3_3af8531a9b0e21b96d46e6ac73bde5d4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(schools)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>schools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -352,7 +352,7 @@ y_j|\theta_j, \sigma_j^2 \sim \text{Normal}(\theta_j, \sigma_j^2=1/\tau_j)
 <section id="model-specification" class="level3">
 <h3 class="anchored" data-anchor-id="model-specification">Model specification</h3>
 <p>To specify the model, we use the same syntax as we did in WinBUGS. Then create a <code>.txt</code> or <code>.bug</code> file to store the model at local path. It is also allowed to use a function containing a <code>BUGS</code> model since is has the similar syntax as R. While applying this model, only a temporary file will be created.</p>
-<div class="cell">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-4_18d1071a23b719f23f82ea7d9c8ba2d5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  {</span>
@@ -370,7 +370,7 @@ y_j|\theta_j, \sigma_j^2 \sim \text{Normal}(\theta_j, \sigma_j^2=1/\tau_j)
 <section id="load-data-and-initial-values" class="level3">
 <h3 class="anchored" data-anchor-id="load-data-and-initial-values">Load data and initial values</h3>
 <p>Data and initial values can be arranged as lists in R script. Save initial values lists to be function avoid repeated specifying values for multiple chains.</p>
-<div class="cell">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-5_07daaa26d2481ea4b928dbb2a9a3f124">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="fu">nrow</span>(schools)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> schools<span class="sc">$</span>estimate</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sigma.y <span class="ot">&lt;-</span> schools<span class="sc">$</span>sd</span>
@@ -404,31 +404,31 @@ y_j|\theta_j, \sigma_j^2 \sim \text{Normal}(\theta_j, \sigma_j^2=1/\tau_j)
 <section id="inference-on-mcmc-samples" class="level3">
 <h3 class="anchored" data-anchor-id="inference-on-mcmc-samples">Inference on MCMC samples</h3>
 <p>Just show some basic analysis. You can play more on it. Other packages like <code>posterior</code> and <code>mcmc</code> are also suggested.</p>
-<div class="cell">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-7_57e640cd0ac0e71f043670948703d171">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary statistics</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(schools.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Inference for Bugs model at "C:/Users/Xinwei/AppData/Local/Temp/Rtmps5stDT/model248043988d6.txt", fit using WinBUGS,
+<pre><code>Inference for Bugs model at "C:/Users/Xinwei/AppData/Local/Temp/RtmpuCiakQ/model72dc354f7cfe.txt", fit using WinBUGS,
  4 chains, each with 2000 iterations (first 1000 discarded), n.thin = 4
  n.sims = 1000 iterations saved
             mean  sd  2.5%  25%  50%  75% 97.5% Rhat n.eff
-theta[1]    11.9 8.4  -2.0  6.1 10.8 16.3  31.6    1   260
-theta[2]     8.1 6.4  -5.1  4.2  8.1 11.9  20.6    1   380
-theta[3]     5.7 8.5 -13.8  1.6  6.7 11.1  20.0    1  1000
-theta[4]     7.7 7.0  -6.4  3.4  7.7 11.9  21.2    1   550
-theta[5]     5.2 6.9  -9.5  1.3  5.8 10.1  17.0    1  1000
-theta[6]     6.3 7.2  -9.2  1.9  7.0 11.0  19.1    1  1000
-theta[7]    11.1 7.0  -1.5  6.8 10.5 15.0  28.2    1    97
-theta[8]     8.8 8.4  -7.4  4.2  8.5 13.3  26.7    1  1000
-mu.theta     8.1 5.3  -2.0  5.0  8.1 11.3  17.9    1   330
-sigma.theta  7.1 6.0   0.5  2.8  5.7  9.7  21.8    1    91
-deviance    60.5 2.3  57.0 59.1 60.0 61.5  66.1    1  1000
+theta[1]    12.4 8.8  -2.1  6.5 11.2 16.7  32.9  1.0   180
+theta[2]     8.3 6.6  -3.5  3.6  8.2 12.7  21.3  1.0   160
+theta[3]     6.4 8.2  -9.5  1.2  6.5 11.3  21.5  1.0   540
+theta[4]     7.8 6.8  -5.3  3.5  7.7 12.5  21.0  1.0   240
+theta[5]     5.5 7.2  -9.8  1.2  5.9 10.3  17.3  1.0   170
+theta[6]     6.2 7.3 -10.2  1.9  6.4 10.8  18.9  1.0   180
+theta[7]    11.1 7.6  -2.0  6.0 10.3 16.3  28.2  1.0   340
+theta[8]     9.0 8.1  -7.1  4.0  8.9 13.8  26.5  1.0   240
+mu.theta     8.3 5.5  -1.8  4.5  8.1 11.9  18.3  1.0   180
+sigma.theta  7.0 5.9   0.1  2.7  5.7  9.6  20.8  1.2    49
+deviance    60.7 2.4  56.9 59.1 60.2 61.9  66.6  1.0   130
 
 For each parameter, n.eff is a crude measure of effective sample size,
 and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 
 DIC info (using the rule, pD = Dbar-Dhat)
-pD = 3.0 and DIC = 63.5
+pD = 3.1 and DIC = 63.8
 DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(schools.sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -453,7 +453,7 @@ DIC is an estimate of expected predictive error (lower deviance is better).</cod
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Probability calculation</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>]<span class="sc">&gt;</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.557</code></pre>
+<pre><code>[1] 0.565</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the treatment effect</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">1</span>])<span class="sc">&gt;</span><span class="fu">mean</span>(schools.sim<span class="sc">$</span>sims.list<span class="sc">$</span>theta[,<span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -461,6 +461,7 @@ DIC is an estimate of expected predictive error (lower deviance is better).</cod
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
+<p>For more examples, see <span class="citation" data-cites="sturtz2005r2winbugs">Sturtz, Ligges, and Gelman (<a href="#ref-sturtz2005r2winbugs" role="doc-biblioref">2005</a>)</span> and <span class="citation" data-cites="dominici">Dominici (<a href="#ref-dominici" role="doc-biblioref">n.d.</a>)</span></p>
 </section>
 </section>
 </section>
@@ -473,7 +474,7 @@ DIC is an estimate of expected predictive error (lower deviance is better).</cod
 <col style="width: 24%">
 <col style="width: 24%">
 <col style="width: 24%">
-<col style="width: 27%">
+<col style="width: 26%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -525,11 +526,13 @@ DIC is an estimate of expected predictive error (lower deviance is better).</cod
 </section>
 <section id="intersting-visualization" class="level2">
 <h2 class="anchored" data-anchor-id="intersting-visualization">Intersting visualization</h2>
-<p>A very interesting and well-produced web page: <a href="https://chi-feng.github.io/mcmc-demo/app.html" target="_blank">The Markov-chain Monte Carlo Interactive Gallery</a></p>
+<p>A very interesting and well-produced web page: <a href="https://chi-feng.github.io/mcmc-demo/app.html" target="_blank">The Markov-chain Monte Carlo Interactive Gallery</a> <span class="citation" data-cites="feng">Feng (<a href="#ref-feng" role="doc-biblioref">n.d.</a>)</span></p>
 </section>
 </section>
 <section id="references" class="level1">
 <h1>References</h1>
+<hr>
+<hr>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-dominici" class="csl-entry" role="listitem">
 Dominici, Francesca. n.d. <span>“Lab 8: Introduction to WinBUGS.”</span> <em>ML - Bio 656 Lectures</em>. <a href="https://www.biostat.jhsph.edu/~fdominic/teaching/bio656/lectures/lectures.html">https://www.biostat.jhsph.edu/~fdominic/teaching/bio656/lectures/lectures.html</a>.

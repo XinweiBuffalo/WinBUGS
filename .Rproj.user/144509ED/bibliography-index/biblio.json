@@ -55,6 +55,29 @@
             "container-title": "MCMC Interactive Gallery",
             "id": "feng",
             "type": ""
+        },
+        {
+            "author": [
+                {
+                    "family": "Rubin",
+                    "given": "Donald B"
+                }
+            ],
+            "container-title": "Journal of Educational Statistics",
+            "id": "rubin1981estimation",
+            "issue": "4",
+            "issued": {
+                "date-parts": [
+                    [
+                        1981
+                    ]
+                ]
+            },
+            "page": "377-401",
+            "publisher": "Sage Publications Sage CA: Thousand Oaks, CA",
+            "title": "Estimation in parallel randomized experiments",
+            "type": "article-journal",
+            "volume": "6"
         }
     ],
     "project_biblios": []
