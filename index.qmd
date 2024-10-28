@@ -3,7 +3,7 @@ title: "A quick tutorial of WinBUGS and R2WinBUGS"
 title-block-banner: true
 date: 2023-04-13
 author:
-  - name: '<a href="https://scholar.google.com/citations?user=GNz_4loAAAAJ&hl=en" target="_blank">Xin-Wei Huang</a>'
+  - name: '<a href="https://xinweihuang.net/" target="_blank">Xin-Wei Huang</a>'
     affiliations:
       - Department of Biostatistics, University at Buffalo
 description: Lecture of STA667 Advanced Bayesian Inference in 2023 Spring
