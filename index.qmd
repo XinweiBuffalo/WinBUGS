@@ -11,6 +11,7 @@ bibliography: references.bib
 ---
 
 ### Regarding Past Disputes
+
 This website was originally created because I was the first student to introduce an R2WinBUGS lecture in this course and develop it into a web resource. I knew my version had room for improvement, so I kept the site open, hoping future students would refine and expand upon it while adding their own contributions. Through multiple iterations, it could become the best possible tutorial.
 
 However, I was surprised when Ms. Mengyu Fang directly copied my website in the Spring 2024 semester and removed my name. Even more concerning was the instructor's response, which made it clear that academic misconduct was tolerated—--after all, as he put it, "Even Dr. Peter Hall plagiarized before."
