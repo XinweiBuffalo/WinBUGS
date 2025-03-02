@@ -9,6 +9,12 @@ author:
 description: Lecture of STA667 Advanced Bayesian Inference in 2023 Spring
 bibliography: references.bib
 ---
+### Regarding Past Disputes
+This website was originally created because I was the first student to introduce an R2WinBUGS lecture in this course and develop it into a web resource. I knew my version had room for improvement, so I kept the site open, hoping future students would refine and expand upon it while adding their own contributions. Through multiple iterations, it could become the best possible tutorial.
+
+However, I was surprised when Ms. Mengyu Fang directly copied my website in the Spring 2024 semester and removed my name. Even more concerning was the instructor's response, which made it clear that academic misconduct was tolerated—--after all, as he put it, "Even Dr. Peter Hall plagiarized before."
+
+After this incident, Ms. Mengyu Fang and the instructor's PhD students spread false claims, insisting that this was not plagiarism and instead portraying me as the aggressor. At that point, I realized there was no reason for me to keep putting effort into this. So, if you’re a future student taking over this project, feel free to use all the content as you wish—--it’ll save you time. Just remember that academic misconduct isn’t tolerated everywhere.
 
 # Getting start with WinBUGS
 
