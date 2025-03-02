@@ -10,7 +10,7 @@ description: Lecture of STA667 Advanced Bayesian Inference in 2023 Spring
 bibliography: references.bib
 ---
 
-### Regarding Past Disputes
+# Regarding Past Disputes
 
 This webpage was originally created because I was the first student to introduce an R2WinBUGS lecture in this course and develop it into a web resource. I knew my version had room for improvement, so I kept the site open, hoping future students would refine and expand upon it while adding their own contributions. Through multiple iterations, it could become the best possible tutorial.
 
